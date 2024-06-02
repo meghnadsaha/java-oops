@@ -2377,8 +2377,17 @@ In the given example, the `super` keyword is used in two places:
 1. **Single Inheritance**: When a class inherits from only one superclass.
    In single inheritance, a subclass inherits from only one superclass. Here's an example with a UML diagram and corresponding Java code:
 
-<img  src="https://github.com/meghnadsaha/java-oops/blob/master/resources/Single%20Inheritance.png"/>
 
+```
+
+      +--------------+        +-----------------+      
+    |    Vehicle   | <------|     Car           | 
+    +--------------+        +-------------------+      
+    |  maxSpeed    |        |  mileage          |       
+    +--------------+        +-------------------+       
+    |  displaySpeed()       |  displayMileage() | 
+    +--------------+        +-------------------+       
+```
 ### Java Code:
 
 ```java
