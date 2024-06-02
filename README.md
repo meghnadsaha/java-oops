@@ -937,7 +937,7 @@ public enum BookGenre {
 }
 ```
 
-### Objects and Classes in Java
+### OOPS : Objects and Classes in Java
 
 #### What is an Object in Java?
 An object is a basic unit of Object-Oriented Programming (OOP) that represents a real-world entity. It is an instance of a class and contains both data (attributes) and methods (functions).
@@ -2288,3 +2288,385 @@ In summary, the `this` keyword in Java is used to refer to the current object. I
 
 
 
+### OOPS : Inheritance in Java
+
+Inheritance in Java allows one class (subclass) to inherit attributes and methods from another class (superclass). This enables code reusability and the creation of a hierarchical relationship between classes.
+
+**Terms used in Inheritance:**
+- **Superclass**: The class whose attributes and methods are inherited by another class.
+- **Subclass**: The class that inherits attributes and methods from another class.
+- **extends**: Keyword used to establish inheritance between classes. The subclass follows the `extends` keyword and specifies the superclass.
+- **super**: Keyword used to call the superclass constructor or method from the subclass.
+- **Override**: When a subclass provides a specific implementation of a method that is already provided by its superclass.
+
+Here's an example demonstrating inheritance with the use of the `super` keyword to call the superclass constructor and method:
+
+```java
+// Superclass
+class Vehicle {
+    int maxSpeed;
+
+    // Superclass constructor
+    Vehicle(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    // Superclass method
+    void displaySpeed() {
+        System.out.println("Max speed: " + maxSpeed);
+    }
+}
+
+// Subclass inheriting from Vehicle
+class Car extends Vehicle {
+    int mileage;
+
+    // Subclass constructor using super to call superclass constructor
+    Car(int maxSpeed, int mileage) {
+        super(maxSpeed); // calling superclass constructor
+        this.mileage = mileage;
+    }
+
+    // Subclass method
+    void displayMileage() {
+        System.out.println("Mileage: " + mileage);
+    }
+
+    // Overriding method from superclass
+    @Override
+    void displaySpeed() {
+        super.displaySpeed(); // calling superclass method
+        System.out.println("This is a car.");
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car(150, 25);
+        car.displaySpeed(); // calling method from superclass
+        car.displayMileage(); // calling method from subclass
+    }
+}
+```
+
+
+
+In the given example, the `super` keyword is used in two places:
+
+1. **Calling superclass constructor:**
+   ```java
+   Car(int maxSpeed, int mileage) {
+       super(maxSpeed); // calling superclass constructor
+       this.mileage = mileage;
+   }
+   ```
+   Here, `super(maxSpeed)` is used to call the constructor of the `Vehicle` superclass with the `maxSpeed` parameter. This initializes the `maxSpeed` field in the superclass.
+
+2. **Calling superclass method:**
+   ```java
+   @Override
+   void displaySpeed() {
+       super.displaySpeed(); // calling superclass method
+       System.out.println("This is a car.");
+   }
+   ```
+   The `super.displaySpeed()` statement is used to call the `displaySpeed()` method of the superclass `Vehicle`. This allows the `Car` subclass to first display the maximum speed inherited from `Vehicle` and then add additional information specific to a car.
+
+**Types of Inheritance in Java:**
+1. **Single Inheritance**: When a class inherits from only one superclass.
+   In single inheritance, a subclass inherits from only one superclass. Here's an example with a UML diagram and corresponding Java code:
+
+### UML Diagram:
+
+```
+
+      +--------------+        +-----------------+      
+    |    Vehicle   | <------|     Car           | 
+    +--------------+        +-------------------+      
+    |  maxSpeed    |        |  mileage          |       
+    +--------------+        +-------------------+       
+    |  displaySpeed()       |  displayMileage() | 
+    +--------------+        +-------------------+       
+```
+
+### Java Code:
+
+```java
+// Superclass
+class Vehicle {
+    int maxSpeed;
+
+    Vehicle(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    void displaySpeed() {
+        System.out.println("Max speed: " + maxSpeed);
+    }
+}
+
+// Subclass
+class Car extends Vehicle {
+    int mileage;
+
+    Car(int maxSpeed, int mileage) {
+        super(maxSpeed); // calling superclass constructor
+        this.mileage = mileage;
+    }
+
+    void displayMileage() {
+        System.out.println("Mileage: " + mileage);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car(150, 25);
+        car.displaySpeed();
+        car.displayMileage();
+    }
+}
+```
+
+In this example, `Vehicle` is the superclass with a `maxSpeed` attribute and a `displaySpeed()`
+method. `Car` is the subclass inheriting from `Vehicle` and adding a `mileage` attribute and a `displayMileage()` method. The `Car` constructor uses `super(maxSpeed)` to call the superclass constructor.
+
+
+2. **Multilevel Inheritance**: When a class is derived from a class, which is also derived from another class.
+   In multilevel inheritance, a subclass inherits from a superclass, and another class inherits from this subclass, forming a chain of inheritance. Here's an example with a UML diagram:
+
+### UML Diagram:
+In UML diagrams, a hollow triangle arrowhead pointing from the subclass to the superclass signifies inheritance. Here's an updated UML diagram for the multilevel inheritance example with the hollow triangle arrowhead:
+
+```
+    +--------------+        +--------------+       +--------------+
+    |    Vehicle   | <------|     Car      | <-----|   Electric   |
+    +--------------+        +--------------+       +--------------+
+    |  maxSpeed    |        |  mileage     |       |   battery    |
+    +--------------+        +--------------+       +--------------+
+    |  displaySpeed()       |  displayMileage()    |  displayBattery()
+    +--------------+        +--------------+       +--------------+
+```
+
+In this diagram, the hollow triangle arrowhead points from `Car` to `Vehicle`, indicating that `Car` inherits from `Vehicle`. Similarly, another hollow triangle arrowhead points from `Electric` to `Car`, indicating that `Electric` inherits from `Car`, which in turn inherits from `Vehicle`.
+
+### Java Code:
+
+```java
+// Superclass
+class Vehicle {
+    int maxSpeed;
+
+    Vehicle(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    void displaySpeed() {
+        System.out.println("Max speed: " + maxSpeed);
+    }
+}
+
+// Subclass
+class Car extends Vehicle {
+    int mileage;
+
+    Car(int maxSpeed, int mileage) {
+        super(maxSpeed); // calling superclass constructor
+        this.mileage = mileage;
+    }
+
+    void displayMileage() {
+        System.out.println("Mileage: " + mileage);
+    }
+}
+
+// Subclass of Car
+class Electric extends Car {
+    int battery;
+
+    Electric(int maxSpeed, int mileage, int battery) {
+        super(maxSpeed, mileage); // calling superclass constructor
+        this.battery = battery;
+    }
+
+    void displayBattery() {
+        System.out.println("Battery: " + battery);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Electric electricCar = new Electric(200, 30, 500);
+        electricCar.displaySpeed();
+        electricCar.displayMileage();
+        electricCar.displayBattery();
+    }
+}
+```
+
+In this example, `Electric` is a subclass of `Car`, which is itself a subclass of `Vehicle`, demonstrating multilevel inheritance. The UML diagram shows the relationship between these classes, with the arrowhead pointing from `Electric` to `Car` and then from `Car` to `Vehicle`.
+
+
+3. **Hierarchical Inheritance**: When multiple classes inherit from a single superclass.
+   In hierarchical inheritance, multiple classes inherit from a single superclass. Here's an example with a UML diagram showing hierarchical inheritance with hollow triangle arrowheads pointing from the subclasses to the superclass:
+
+### UML Diagram:
+
+```
+          +--------------+
+          |    Vehicle   | 
+          +--------------+
+          |  maxSpeed    | 
+          +--------------+
+          |  displaySpeed()       
+          +--------------+
+                /    \
+               /      \
+              /        \
+ +--------------+     +--------------------+
+ |     Car      |     |   Motorcycle       |
+ +--------------+     +--------------------+
+ |  mileage     |     |   engineSize       |
+ +--------------+     +--------------------+
+ |  displayMileage()  | displayEngineSize()|
+ +--------------+     +--------------------+
+```
+
+In this diagram, both `Car` and `Motorcycle` inherit from `Vehicle`. The hollow triangle arrowheads point from `Car` and `Motorcycle` to `Vehicle`, indicating that they inherit from `Vehicle`.
+
+### Java Code:
+
+```java
+// Superclass
+class Vehicle {
+    int maxSpeed;
+
+    Vehicle(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    void displaySpeed() {
+        System.out.println("Max speed: " + maxSpeed);
+    }
+}
+
+// Subclass Car
+class Car extends Vehicle {
+    int mileage;
+
+    Car(int maxSpeed, int mileage) {
+        super(maxSpeed); // calling superclass constructor
+        this.mileage = mileage;
+    }
+
+    void displayMileage() {
+        System.out.println("Mileage: " + mileage);
+    }
+}
+
+// Subclass Motorcycle
+class Motorcycle extends Vehicle {
+    int engineSize;
+
+    Motorcycle(int maxSpeed, int engineSize) {
+        super(maxSpeed); // calling superclass constructor
+        this.engineSize = engineSize;
+    }
+
+    void displayEngineSize() {
+        System.out.println("Engine Size: " + engineSize);
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Car car = new Car(150, 25);
+        car.displaySpeed();
+        car.displayMileage();
+
+        Motorcycle motorcycle = new Motorcycle(180, 1000);
+        motorcycle.displaySpeed();
+        motorcycle.displayEngineSize();
+    }
+}
+```
+
+In this code, `Car` and `Motorcycle` inherit from `Vehicle`, demonstrating hierarchical inheritance.
+
+4. **Multiple Inheritance (through interfaces)**: When a class implements multiple interfaces.
+   In Java, multiple inheritance is not directly supported for classes (i.e., a class cannot inherit from multiple classes). However, it can be achieved through interfaces. Here's an example with a UML diagram and corresponding Java code:
+
+### UML Diagram:
+
+```
+    +--------------+        
+    |    Vehicle   |        
+    +--------------+        
+    |  maxSpeed    |        
+    +--------------+        
+    |  displaySpeed()       
+    +--------------+        
+          / \           
+         /   \          
+        /     \         
+ +--------------+  +--------------+
+ |   Electric   |  |   Hybrid     |
+ +--------------+  +--------------+
+ |   battery    |  |   fuelType   |
+ +--------------+  +--------------+
+ | displayBattery() | displayFuelType()
+ +--------------+  +--------------+
+```
+
+In this diagram, both `Electric` and `Hybrid` inherit from `Vehicle`.
+
+### Java Code:
+
+```java
+// Interface for Electric Vehicles
+interface Electric {
+    void displayBattery();
+}
+
+// Interface for Hybrid Vehicles
+interface Hybrid {
+    void displayFuelType();
+}
+
+// Vehicle class implementing Electric and Hybrid interfaces
+class Vehicle implements Electric, Hybrid {
+    int maxSpeed;
+
+    Vehicle(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public void displaySpeed() {
+        System.out.println("Max speed: " + maxSpeed);
+    }
+
+    public void displayBattery() {
+        System.out.println("Battery: Electric");
+    }
+
+    public void displayFuelType() {
+        System.out.println("Fuel Type: Hybrid");
+    }
+}
+
+// Main class
+public class Main {
+    public static void main(String[] args) {
+        Vehicle vehicle = new Vehicle(200);
+        vehicle.displaySpeed();
+        vehicle.displayBattery();
+        vehicle.displayFuelType();
+    }
+}
+```
+
+In this code, `Vehicle` class implements both `Electric` and `Hybrid` interfaces, allowing it to inherit behavior from both interfaces.
