@@ -306,7 +306,14 @@ public void printMessage(String message) {
 ```
 
 #### Access Specifier Types Example with Different Package and Main Method
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20230409122917/Access-Modifiers-in-Java-1-768.webp"/>
+
+
 Access specifiers control the visibility of a method. There are four types: `public`, `private`, `protected`, and default (no specifier).
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/20210423031253/AccessModifiersinJava.png"/>
+
 
 Example:
 ```java
@@ -396,11 +403,61 @@ In Java, a method's return type determines the type of value that the method can
 
 6. **Generic types**: Methods can return a generic type.
 
-   ```java
-   public <T> T getFirst(List<T> list) {
-       return list.get(0);
-   }
-   ```
+
+```java
+public class GenericMethodExample {
+    // Method to return the maximum of two integers
+    public static <T extends Comparable<T>> T maximum(T x, T y) {
+        return x.compareTo(y) > 0 ? x : y;
+    }
+
+    // Method to return the minimum of two integers
+    public static <T extends Comparable<T>> T minimum(T x, T y) {
+        return x.compareTo(y) < 0 ? x : y;
+    }
+
+    // Method to return the length of a string
+    public static <T> int length(T[] array) {
+        return array.length;
+    }
+
+    // Method to return the first element of an array
+    public static <T> T firstElement(T[] array) {
+        return array.length > 0 ? array[0] : null;
+    }
+
+    // Method to return the last element of an array
+    public static <T> T lastElement(T[] array) {
+        return array.length > 0 ? array[array.length - 1] : null;
+    }
+
+    public static void main(String[] args) {
+        // Using the maximum method with integers
+        int maxInt = maximum(5, 10);
+        System.out.println("Maximum Integer: " + maxInt);
+
+        // Using the minimum method with doubles
+        double minDouble = minimum(3.14, 2.71);
+        System.out.println("Minimum Double: " + minDouble);
+
+        // Using the length method with a string array
+        String[] fruits = {"Apple", "Banana", "Orange"};
+        int arrayLength = length(fruits);
+        System.out.println("Array Length: " + arrayLength);
+
+        // Using the firstElement method with an integer array
+        Integer[] numbers = {1, 2, 3, 4, 5};
+        Integer firstNum = firstElement(numbers);
+        System.out.println("First Element: " + firstNum);
+
+        // Using the lastElement method with a character array
+        Character[] chars = {'a', 'b', 'c'};
+        Character lastChar = lastElement(chars);
+        System.out.println("Last Element: " + lastChar);
+    }
+}
+```
+
 
 7. **void vs. return types**: Methods with a return type of `void` do not return a value, while methods with other return types must use the `return` keyword to return a value of that type.
 
