@@ -2830,3 +2830,123 @@ class Person {
 ```
 
 In this example, `Person` "has-a" kind of `Address`.
+
+
+### Method Overloading in Java
+
+1. **Definition**:
+   Method overloading in Java is a feature that allows a class to have more than one method with the same name but different parameters. This can be achieved by varying the number of parameters or the type of parameters.
+
+2. **Different Ways to Overload the Method**:
+   - By changing the number of arguments.
+   - By changing the datatype of the arguments.
+
+3. **By Changing the Number of Arguments**:
+
+   ```java
+   class Display {
+       void show(int a) {
+           System.out.println("Argument: " + a);
+       }
+       
+       void show(int a, int b) {
+           System.out.println("Arguments: " + a + " and " + b);
+       }
+       
+       public static void main(String[] args) {
+           Display obj = new Display();
+           obj.show(10);          // Output: Argument: 10
+           obj.show(10, 20);      // Output: Arguments: 10 and 20
+       }
+   }
+   ```
+
+4. **By Changing the Datatype**:
+
+   ```java
+   class Display {
+       void show(int a) {
+           System.out.println("Integer Argument: " + a);
+       }
+       
+       void show(double a) {
+           System.out.println("Double Argument: " + a);
+       }
+       
+       public static void main(String[] args) {
+           Display obj = new Display();
+           obj.show(10);           // Output: Integer Argument: 10
+           obj.show(10.5);         // Output: Double Argument: 10.5
+       }
+   }
+   ```
+
+5. **Why Method Overloading is Not Possible by Changing the Return Type**:
+   Method overloading is not possible by changing only the return type of the method because the method signature in Java does not include the return type. The compiler uses the method signature to distinguish between different methods, which includes the method name and parameter list. If only the return type is different, the compiler cannot differentiate between the two methods.
+
+6. **Can We Overload the Main Method**:
+   Yes, we can overload the `main` method in Java, but the JVM will only call the standard `main` method with the signature `public static void main(String[] args)`.
+
+   ```java
+   public class MainMethodOverload {
+       public static void main(String[] args) {
+           System.out.println("Main method with String array");
+           main(10);
+           main(10, 20);
+       }
+       
+       public static void main(int a) {
+           System.out.println("Main method with int argument: " + a);
+       }
+       
+       public static void main(int a, int b) {
+           System.out.println("Main method with two int arguments: " + a + " and " + b);
+       }
+   }
+   ```
+
+7. **Method Overloading with Type Promotion**:
+   When matching is not found for a method, Java promotes smaller data types to larger data types (byte to short, short to int, int to long, long to float, float to double).
+
+   - **Example of Method Overloading with Type Promotion if Matching Found**:
+
+   ```java
+   class Display {
+       void show(int a) {
+           System.out.println("Integer Argument: " + a);
+       }
+       
+       void show(double a) {
+           System.out.println("Double Argument: " + a);
+       }
+       
+       public static void main(String[] args) {
+           Display obj = new Display();
+           obj.show(10);           // Output: Integer Argument: 10
+           obj.show(10.5);         // Output: Double Argument: 10.5
+           obj.show('a');          // Output: Integer Argument: 97 (char is promoted to int)
+       }
+   }
+   ```
+
+   - **Example of Method Overloading with Type Promotion in Case of Ambiguity**:
+
+   ```java
+   class Display {
+       void show(int a, double b) {
+           System.out.println("Arguments: int and double");
+       }
+       
+       void show(double a, int b) {
+           System.out.println("Arguments: double and int");
+       }
+       
+       public static void main(String[] args) {
+           Display obj = new Display();
+           // obj.show(10, 10);    // Compile-time error: ambiguous method call
+       }
+   }
+   ```
+
+   In the above case, if you try to call `obj.show(10, 10);`, the compiler will not be able to decide which method to call because both methods can accept the arguments after type promotion, leading to ambiguity.
+
