@@ -2950,3 +2950,148 @@ In this example, `Person` "has-a" kind of `Address`.
 
    In the above case, if you try to call `obj.show(10, 10);`, the compiler will not be able to decide which method to call because both methods can accept the arguments after type promotion, leading to ambiguity.
 
+### Method Overriding in Java
+
+#### Usage of Java Method Overriding
+
+Method overriding is used to provide a specific implementation of a method that is already defined in its superclass. It's mainly used for runtime polymorphism and to define the behavior of a method in the subclass.
+
+#### Rules for Java Method Overriding
+
+1. The method must have the same name as in the parent class.
+2. The method must have the same parameter list as in the parent class.
+3. The method must have the same or a subtype return type (covariant return type).
+4. The access level cannot be more restrictive than the overridden method’s access level.
+5. The overriding method cannot throw new or broader checked exceptions.
+
+#### Example of Method Overriding
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class TestOverride {
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        a.sound();  // Output: Dog barks
+    }
+}
+```
+
+#### A Real Example of Java Method Overriding
+
+```java
+class Bank {
+    float getRateOfInterest() {
+        return 0;
+    }
+}
+
+class SBI extends Bank {
+    @Override
+    float getRateOfInterest() {
+        return 8.4f;
+    }
+}
+
+class ICICI extends Bank {
+    @Override
+    float getRateOfInterest() {
+        return 7.3f;
+    }
+}
+
+public class TestBank {
+    public static void main(String[] args) {
+        Bank b;
+        b = new SBI();
+        System.out.println("SBI Rate of Interest: " + b.getRateOfInterest());
+        b = new ICICI();
+        System.out.println("ICICI Rate of Interest: " + b.getRateOfInterest());
+    }
+}
+```
+
+#### Can We Override Static Method?
+
+No, we cannot override static methods.
+
+##### Why Can We Not Override Static Methods?
+
+Static methods belong to the class rather than the instance of the class. Method overriding is based on the instance of the class, hence static methods cannot be overridden. However, they can be hidden if a subclass defines a static method with the same signature.
+
+#### Can We Override Java Main Method?
+
+No, the `main` method is static and cannot be overridden. However, it can be overloaded.
+
+#### Difference Between Method Overloading and Method Overriding in Java
+
+| Feature                  | Method Overloading                           | Method Overriding                           |
+|--------------------------|----------------------------------------------|---------------------------------------------|
+| Definition               | Same method name, different parameters       | Same method name, same parameters           |
+| Method Resolution        | Compile-time                                 | Runtime                                     |
+| Return Type              | Can be different                             | Must be same or covariant                   |
+| Access Modifier          | Can be different                             | Cannot reduce visibility                    |
+| Static Methods           | Can be overloaded                            | Cannot be overridden                        |
+| Exception Handling       | Can throw any exceptions                     | Can throw same, subclass, or no exceptions  |
+
+#### Method Overriding with Access Modifier and Examples
+
+The access level cannot be more restrictive than the overridden method’s access level.
+
+```java
+class Parent {
+    void display() {
+        System.out.println("Parent display");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    public void display() {  // Access modifier is less restrictive
+        System.out.println("Child display");
+    }
+}
+```
+
+#### Exception Handling with Method Overriding and Examples
+
+The overriding method can throw the same exceptions, subclass exceptions, or no exceptions.
+
+```java
+class Parent {
+    void display() throws IOException {
+        System.out.println("Parent display");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void display() throws FileNotFoundException {  // Subclass exception
+        System.out.println("Child display");
+    }
+}
+
+public class TestExceptionHandling {
+    public static void main(String[] args) {
+        Parent p = new Child();
+        try {
+            p.display();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this example, `Child` class’s `display` method throws `FileNotFoundException`, which is a subclass of `IOException` thrown by the `Parent` class’s `display` method.
