@@ -638,30 +638,97 @@ public class MutatorMethodExample {
 An abstract method is a method that is declared in an abstract class but does not have an implementation. Subclasses of the abstract class must provide an implementation for the abstract method.
 
 Example:
-```java
-public abstract class AbstractMethodExample {
-    // Abstract method
-    public abstract void display();
 
-    public static void main(String[] args) {
-        // Cannot create an instance of an abstract class
-        // AbstractMethodExample obj = new AbstractMethodExample();
+### Example 1: Payment Gateway Integration
+In a payment processing system, you might have different payment gateways like PayPal, Stripe, and Square. Each payment gateway requires a different implementation for processing payments. You can use an abstract class with an abstract method to define a template for payment processing and let each payment gateway subclass provide its implementation.
+
+```java
+abstract class PaymentGateway {
+    abstract void processPayment(double amount);
+}
+
+class PayPalGateway extends PaymentGateway {
+    @Override
+    void processPayment(double amount) {
+        System.out.println("Processing payment via PayPal for amount: " + amount);
+        // PayPal specific implementation
     }
 }
 
-public class ConcreteClass extends AbstractMethodExample {
-    // Implementation of the abstract method
+class StripeGateway extends PaymentGateway {
     @Override
-    public void display() {
-        System.out.println("Abstract method implementation");
+    void processPayment(double amount) {
+        System.out.println("Processing payment via Stripe for amount: " + amount);
+        // Stripe specific implementation
     }
+}
 
+public class PaymentGatewayExample {
     public static void main(String[] args) {
-        ConcreteClass obj = new ConcreteClass();
-        obj.display();
+        PaymentGateway gateway = new PayPalGateway();
+        gateway.processPayment(100.0);
+
+        gateway = new StripeGateway();
+        gateway.processPayment(200.0);
     }
 }
 ```
+
+### Example 2: Database Connection Pooling
+In a web application, you often need to manage database connections efficiently to handle multiple client requests. You can use an abstract class to define a template for managing database connections and let subclasses provide their implementation for creating, reusing, and closing connections.
+
+```java
+import java.sql.Connection;
+
+abstract class ConnectionPool {
+    abstract Connection getConnection();
+    abstract void releaseConnection(Connection connection);
+}
+
+class MySQLConnectionPool extends ConnectionPool {
+    @Override
+    Connection getConnection() {
+        System.out.println("Creating MySQL database connection");
+        // Create and return MySQL database connection
+        return null;
+    }
+
+    @Override
+    void releaseConnection(Connection connection) {
+        System.out.println("Releasing MySQL database connection");
+        // Release MySQL database connection
+    }
+}
+
+class OracleConnectionPool extends ConnectionPool {
+    @Override
+    Connection getConnection() {
+        System.out.println("Creating Oracle database connection");
+        // Create and return Oracle database connection
+        return null;
+    }
+
+    @Override
+    void releaseConnection(Connection connection) {
+        System.out.println("Releasing Oracle database connection");
+        // Release Oracle database connection
+    }
+}
+
+public class ConnectionPoolExample {
+    public static void main(String[] args) {
+        ConnectionPool pool = new MySQLConnectionPool();
+        Connection connection = pool.getConnection();
+        pool.releaseConnection(connection);
+
+        pool = new OracleConnectionPool();
+        connection = pool.getConnection();
+        pool.releaseConnection(connection);
+    }
+}
+```
+
+In both examples, the abstract class defines a template for a specific functionality (payment processing, database connection pooling) while allowing concrete subclasses to provide their implementations for specific use cases.
 
 ### Factory Method
 A factory method is a static method that creates and returns instances of a class.
