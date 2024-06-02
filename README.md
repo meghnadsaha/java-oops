@@ -2374,6 +2374,7 @@ In the given example, the `super` keyword is used in two places:
    The `super.displaySpeed()` statement is used to call the `displaySpeed()` method of the superclass `Vehicle`. This allows the `Car` subclass to first display the maximum speed inherited from `Vehicle` and then add additional information specific to a car.
 
 **Types of Inheritance in Java:**
+<img src="https://prepinstadotcom.s3.ap-south-1.amazonaws.com/wp-content/uploads/2020/11/java-inheritance.webp"/>
 1. **Single Inheritance**: When a class inherits from only one superclass.
    In single inheritance, a subclass inherits from only one superclass. Here's an example with a UML diagram and corresponding Java code:
 
