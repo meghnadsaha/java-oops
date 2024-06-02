@@ -528,6 +528,72 @@ public void instanceMethod() {
     System.out.println("This is an instance method.");
 }
 ```
+Here are examples of static and instance methods in Java, along with how to call them from the `main` method:
+
+1. **Static Method Example:**
+
+```java
+public class MyClass {
+    public static void staticMethod() {
+        System.out.println("This is a static method.");
+    }
+
+    public static void main(String[] args) {
+        // Calling a static method
+        staticMethod();
+    }
+}
+```
+
+In this example, `staticMethod` is a static method of the `MyClass` class. It can be called using the class name (`MyClass.staticMethod()`), but when calling it from within the class, you can omit the class name (`staticMethod()`).
+
+2. **Instance Method Example:**
+
+```java
+public class MyClass {
+    public void instanceMethod() {
+        System.out.println("This is an instance method.");
+    }
+
+    public static void main(String[] args) {
+        // Creating an instance of MyClass
+        MyClass obj = new MyClass();
+
+        // Calling an instance method using the object
+        obj.instanceMethod();
+    }
+}
+```
+
+In this example, `instanceMethod` is an instance method of the `MyClass` class. You need to create an instance of the class (`MyClass obj = new MyClass();`) to call the instance method (`obj.instanceMethod();`).
+
+3. **Static vs. Instance Method Access:**
+
+```java
+public class MyClass {
+    private static String staticVar = "Static Variable";
+    private String instanceVar = "Instance Variable";
+
+    public static void staticMethod() {
+        System.out.println(staticVar); // Accessing static variable directly
+        // System.out.println(instanceVar); // Error: Cannot access instance variable in static context
+    }
+
+    public void instanceMethod() {
+        System.out.println(staticVar); // Accessing static variable in instance method
+        System.out.println(instanceVar); // Accessing instance variable directly
+    }
+
+    public static void main(String[] args) {
+        staticMethod(); // Calling static method
+        // instanceMethod(); // Error: Cannot call instance method without an instance
+        MyClass obj = new MyClass();
+        obj.instanceMethod(); // Calling instance method using object
+    }
+}
+```
+
+In this example, `staticVar` is a static variable and `instanceVar` is an instance variable. Static methods can directly access static variables, but they cannot access instance variables. Instance methods can access both static and instance variables.
 
 #### How to Create a User-defined Method
 To create a user-defined method, use the following syntax:
