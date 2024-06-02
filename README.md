@@ -2722,3 +2722,111 @@ public class Main {
 ```
 
 In this code, `ElectricCar` class is an example of hybrid inheritance. It extends the `Car` class and implements the `Electric` interface, combining single and interface-based inheritance.
+
+
+In object-oriented programming, "is-a" and "has-a" are relationships that describe how classes are related to each other.
+
+### "is-a" Relationship:
+The "is-a" relationship refers to inheritance or specialization, where one class is a specialized version of another class.
+
+### "has-a" Relationship:
+The "has-a" relationship refers to composition or aggregation, where one class has a component of another class as a member.
+
+### Java Code Examples:
+
+#### "is-a" Relationship (Inheritance):
+```java
+// Superclass
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+// Subclass
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Dog is barking");
+    }
+}
+```
+
+In this example, `Dog` "is-a" kind of `Animal`.
+
+#### "has-a" Relationship (Composition):
+```java
+// Component class
+class Engine {
+    void start() {
+        System.out.println("Engine started");
+    }
+}
+
+// Car class that "has-a" Engine
+class Car {
+    private Engine engine;
+
+    Car() {
+        this.engine = new Engine(); // Composition
+    }
+
+    void startCar() {
+        engine.start();
+    }
+}
+```
+
+In this example, `Car` "has-a" kind of `Engine`.
+
+### "is-a" Relationship (Inheritance):
+
+```java
+// Superclass
+class Shape {
+    void draw() {
+        System.out.println("Drawing a shape");
+    }
+}
+
+// Subclass
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Drawing a circle");
+    }
+}
+```
+
+In this example, `Circle` "is-a" kind of `Shape`.
+
+
+### Another "has-a" Relationship (Composition):
+
+```java
+// Component class
+class Address {
+    String street;
+    String city;
+    String state;
+
+    Address(String street, String city, String state) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+    }
+}
+
+// Person class that "has-a" Address
+class Person {
+    private Address address;
+
+    Person(Address address) {
+        this.address = address; // Composition
+    }
+
+    void displayAddress() {
+        System.out.println("Address: " + address.street + ", " + address.city + ", " + address.state);
+    }
+}
+```
+
+In this example, `Person` "has-a" kind of `Address`.
