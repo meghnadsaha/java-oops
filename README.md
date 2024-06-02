@@ -1,4 +1,235 @@
+### Java
 
+Java is a high-level, object-oriented programming language developed by Sun Microsystems (now owned by Oracle). It is platform-independent, meaning that Java programs can run on any system that has a Java Runtime Environment (JRE) installed.
+
+### Java Compilation Process
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/java.jpg"/>
+
+1. **Writing Code**: Write Java code in a text editor or an IDE (Integrated Development Environment).
+2. **Compilation**: Use the Java compiler (`javac`) to compile the Java source code (`*.java` files) into bytecode (`*.class` files).
+3. **Execution**: Use the Java Virtual Machine (JVM) to execute the bytecode, which is platform-independent.
+
+
+### JDK vs JRE vs JVM
+
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/jvm-3.jpg"/>
+
+<img src="https://miro.medium.com/v2/resize:fit:720/1*_ZZFXuIMYCScducCUAMiZw.png"/>
+
+
+
+| **Feature**          | **JDK (Java Development Kit)**                                   | **JRE (Java Runtime Environment)**                                  | **JVM (Java Virtual Machine)**                                      |
+|----------------------|------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| **Description**      | Software development kit used to develop Java applications.     | Environment used to run Java applications without development tools.| Virtual machine that executes Java bytecode.                        |
+| **Components**       | Includes JRE, compiler (`javac`), debugger, and other tools.     | Includes JVM, libraries, and other components needed for execution. | Executes Java bytecode and provides runtime environment for Java.    |
+| **Usage**            | Needed for Java development.                                     | Needed to run Java applications.                                    | Runtime environment for Java applications.                           |
+| **Example Usage**    | Developing and compiling Java applications.                     | Running Java applications on end-user machines.                     | Executing Java bytecode on various platforms.                       |
+
+### Java Variables
+
+#### Types of Variables
+
+1. **Local Variables**: Declared inside a method and have local scope.
+2. **Instance Variables**: Belong to an instance of a class and are initialized when the class is instantiated.
+3. **Static Variables (Class Variables)**: Belong to the class and are shared among all instances of the class.
+4. **Parameters (Method Arguments)**: Variables passed into a method.
+
+#### Examples
+
+```java
+public class VariablesExample {
+    // Instance variable
+    int instanceVar = 10;
+
+    // Static variable
+    static int staticVar = 20;
+
+    void method(int localVar) {
+        // Local variable
+        int methodVar = 30;
+
+        // Using all types of variables
+        System.out.println("Instance variable: " + instanceVar);
+        System.out.println("Static variable: " + staticVar);
+        System.out.println("Local variable: " + localVar);
+        System.out.println("Method variable: " + methodVar);
+    }
+
+    public static void main(String[] args) {
+        VariablesExample obj = new VariablesExample();
+        obj.method(40);
+    }
+}
+```
+
+#### Output
+```
+Instance variable: 10
+Static variable: 20
+Local variable: 40
+Method variable: 30
+```
+
+### Data Types in Java
+
+1. **Primitive Data Types**: byte, short, int, long, float, double, char, boolean.
+2. **Non-Primitive Data Types**: Arrays, Strings, Classes, Interfaces.
+
+#### Examples
+
+```java
+public class DataTypesExample {
+    public static void main(String[] args) {
+        // Primitive data types
+        byte b = 100;
+        short s = 1000;
+        int i = 10000;
+        long l = 100000L;
+        float f = 10.5f;
+        double d = 10.5;
+        char c = 'A';
+        boolean bool = true;
+
+        // Non-primitive data types
+        String str = "Java";
+        int[] arr = {1, 2, 3, 4, 5};
+
+        // Printing the values
+        System.out.println("Primitive data types:");
+        System.out.println("byte: " + b);
+        System.out.println("short: " + s);
+        System.out.println("int: " + i);
+        System.out.println("long: " + l);
+        System.out.println("float: " + f);
+        System.out.println("double: " + d);
+        System.out.println("char: " + c);
+        System.out.println("boolean: " + bool);
+
+        System.out.println("\nNon-primitive data types:");
+        System.out.println("String: " + str);
+        System.out.print("Array: ");
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+    }
+}
+```
+
+#### Output
+```
+Primitive data types:
+byte: 100
+short: 1000
+int: 10000
+long: 100000
+float: 10.5
+double: 10.5
+char: A
+boolean: true
+
+Non-primitive data types:
+String: Java
+Array: 1 2 3 4 5
+```
+
+Here are examples of non-primitive data types in Java:
+
+### Arrays
+```java
+public class ArrayExample {
+    public static void main(String[] args) {
+        // Declaration and initialization of an integer array
+        int[] numbers = {1, 2, 3, 4, 5};
+
+        // Accessing elements of the array
+        System.out.println("Element at index 2: " + numbers[2]); // Output: 3
+
+        // Modifying an element of the array
+        numbers[2] = 10;
+        System.out.println("Modified element at index 2: " + numbers[2]); // Output: 10
+
+        // Iterating through the array
+        System.out.print("Array elements: ");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.print(numbers[i] + " ");
+        }
+    }
+}
+```
+
+### Strings
+```java
+public class StringExample {
+    public static void main(String[] args) {
+        // Declaration and initialization of a String
+        String str = "Hello, World!";
+
+        // String length
+        System.out.println("Length of the string: " + str.length()); // Output: 13
+
+        // Concatenation
+        String newStr = str.concat(" Welcome");
+        System.out.println("Concatenated string: " + newStr); // Output: Hello, World! Welcome
+
+        // Substring
+        String subStr = str.substring(7);
+        System.out.println("Substring: " + subStr); // Output: World!
+    }
+}
+```
+
+### Classes
+```java
+public class Person {
+    String name;
+    int age;
+
+    // Constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Method to display information
+    public void display() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 30);
+        person.display();
+    }
+}
+```
+
+### Interfaces
+```java
+interface Animal {
+    void eat();
+    void sleep();
+}
+
+class Dog implements Animal {
+    public void eat() {
+        System.out.println("Dog is eating");
+    }
+
+    public void sleep() {
+        System.out.println("Dog is sleeping");
+    }
+}
+
+public class InterfaceExample {
+    public static void main(String[] args) {
+        Dog dog = new Dog();
+        dog.eat();
+        dog.sleep();
+    }
+}
+```
+
+These examples demonstrate the use of arrays, strings, classes, and interfaces, which are non-primitive data types in Java.
 ### Java OOPs Concepts
 
 Object-Oriented Programming is a methodology or paradigm to design a program using classes and objects. It simplifies software development and maintenance by providing some concepts:
@@ -1096,4 +1327,377 @@ class Student {
 - **Can Constructor Perform Other Tasks Instead of Initialization?**: Yes, a constructor can perform other tasks, but it is primarily used for object initialization.
 - **Is There a Constructor Class in Java?**: No, there is no special class called Constructor in Java.
 - **What Is the Purpose of Constructor Class?**: Constructors are used to create and initialize objects in Java.
+
+
+
+### Java `static` Keyword
+
+#### Purpose
+The `static` keyword in Java is used to indicate that a particular variable, method, block, or nested class is a class-level entity and belongs to the class itself rather than to instances of the class.
+
+#### Types of `static` Entities
+1. **Variable (Class Variable)**: A variable that is declared as `static` is called a class variable. It is initialized only once, at the start of the execution, and shared among all instances of the class.
+
+Example of static variable:
+```java
+class Counter {
+    static int count = 0; // Static variable
+
+    Counter() {
+        count++;
+    }
+
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        Counter c3 = new Counter();
+
+        System.out.println("Number of objects created: " + count); // Output: 3
+    }
+}
+```
+
+2. **Method (Class Method)**: A method that is declared as `static` is called a static method. It belongs to the class and can be called without creating an instance of the class.
+
+Example of static method:
+```java
+class StaticMethod {
+    static void display() {
+        System.out.println("This is a static method");
+    }
+
+    public static void main(String[] args) {
+        display(); // Calling static method without instance
+    }
+}
+```
+
+#### Why is the Java `main` Method Static?
+The `main` method in Java is declared as `static` because it is called by the Java Virtual Machine (JVM) to run the program without creating an instance of the class.
+
+3. **Static Block**: A static block is used to initialize static variables or perform any other one-time initialization tasks for a class. It is executed only once, when the class is loaded into memory.
+
+Example of static block:
+```java
+class StaticBlock {
+    static {
+        System.out.println("This is a static block");
+    }
+
+    public static void main(String[] args) {
+        // Main method
+    }
+}
+```
+Yes, that's correct. In Java, the `static` keyword can be applied to:
+
+1. **Variable**: Also known as a class variable, a static variable is shared among all instances of a class. It is initialized only once, at the start of the execution.
+
+2. **Method**: Also known as a class method, a static method belongs to the class rather than to instances of the class. It can be invoked without the need for creating an instance of the class.
+
+3. **Block**: A static block is a block of code enclosed in braces (`{}`) that is executed when the class is loaded into memory. It is used to initialize static variables or perform any other one-time initialization tasks for the class.
+
+4. **Nested Class**: A nested class declared as `static` is called a static nested class. It belongs to the outer class and can be accessed without creating an instance of the outer class.
+
+Here's an example demonstrating these concepts:
+
+```java
+class Outer {
+    static int staticVariable = 10; // Static variable
+
+    static { // Static block
+        System.out.println("Static block: " + staticVariable);
+    }
+
+    static void staticMethod() { // Static method
+        System.out.println("Static method");
+    }
+
+    static class NestedStaticClass { // Static nested class
+        void display() {
+            System.out.println("Nested static class");
+        }
+    }
+}
+
+public class StaticExample {
+    public static void main(String[] args) {
+        // Accessing static variable
+        System.out.println("Static variable: " + Outer.staticVariable);
+
+        // Calling static method
+        Outer.staticMethod();
+
+        // Creating instance of static nested class
+        Outer.NestedStaticClass nested = new Outer.NestedStaticClass();
+        nested.display();
+    }
+}
+```
+
+In this example, `staticVariable` is a static variable, `staticMethod()` is a static method, the static block initializes the static variable, and `NestedStaticClass` is a static nested class.
+
+
+### Example of Static Variable
+```java
+class Counter {
+    static int count = 0; // Static variable
+
+    Counter() {
+        count++;
+    }
+
+    void display() {
+        System.out.println("Count: " + count);
+    }
+
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        Counter c3 = new Counter();
+
+        c1.display(); // Output: Count: 3
+    }
+}
+```
+
+### Program without Static Variable
+```java
+class Counter {
+    int count = 0; // Instance variable
+
+    Counter() {
+        count++;
+    }
+
+    void display() {
+        System.out.println("Count: " + count);
+    }
+
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        Counter c3 = new Counter();
+
+        c1.display(); // Output: Count: 1
+    }
+}
+```
+
+### Program with Static Variable
+```java
+class Counter {
+    static int count = 0; // Static variable
+
+    Counter() {
+        count++;
+    }
+
+    void display() {
+        System.out.println("Count: " + count);
+    }
+
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        Counter c2 = new Counter();
+        Counter c3 = new Counter();
+
+        c1.display(); // Output: Count: 3
+    }
+}
+```
+
+In the first program, `count` is a static variable, so it is shared among all instances of the class `Counter`. Each time a new instance is created, the `count` is incremented, leading to a final count of 3.
+
+In the second program, `count` is an instance variable, so each instance of the class `Counter` has its own `count` variable. Each time a new instance is created, the `count` is incremented for that instance only, leading to a count of 1 for each instance.
+
+The third program is the same as the first, demonstrating the use of a static variable.
+
+#### Can We Execute a Program Without `main()` Method?
+No, we cannot execute a Java program without the `main()` method because it is the entry point for the JVM to start the execution of the program.
+
+In summary, the `static` keyword in Java is used to define class-level entities such as variables, methods, blocks, and nested classes. These entities belong to the class itself rather than to instances of the class.
+
+
+### `this` Keyword in Java
+
+The `this` keyword in Java is a reference to the current object. It can be used in several contexts:
+
+1. **To refer to current class instance variable**: When there is a local variable with the same name as an instance variable, `this` can be used to refer to the instance variable.
+
+Example:
+```java
+class Student {
+    String name; // Instance variable
+
+    Student(String name) {
+        this.name = name; // Using 'this' to refer to the instance variable
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student("Alice");
+        s.display(); // Output: Name: Alice
+    }
+}
+```
+
+2. **To invoke current class method (implicitly)**: When you call a method without using `this`, it is implicitly understood that you are referring to the current object.
+
+Here's an example demonstrating how a method can be invoked without using `this`, which implicitly refers to the current object:
+
+```java
+class Counter {
+    int count; // Instance variable
+
+    Counter() {
+        count = 0;
+    }
+
+    void increment() {
+        count++; // Implicitly referring to the instance variable 'count'
+    }
+
+    void display() {
+        System.out.println("Count: " + count);
+    }
+
+    public static void main(String[] args) {
+        Counter c1 = new Counter();
+        c1.increment(); // Implicitly calling the 'increment' method on 'c1'
+        c1.display(); // Output: Count: 1
+    }
+}
+```
+
+In this example, the `increment` method is invoked without using `this`, but it is understood that `count++` refers to the instance variable `count` of the current object. The `increment` method is implicitly called on the `c1` object, which increments the `count` variable to 1.
+
+3. **To pass as an argument in the constructor call**: `this` can be used to pass the current object as a parameter to another method or constructor.
+
+Example:
+```java
+class Student {
+    String name;
+
+    Student() {
+        this("Alice"); // Calling parameterized constructor using 'this'
+    }
+
+    Student(String name) {
+        this.name = name;
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display(); // Output: Name: Alice
+    }
+}
+```
+
+4. **To return the current class instance**: `this` can be used to return the current object from a method.
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    // Method to return the current object
+    Person getPerson() {
+        return this;
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice");
+        Person person2 = person1.getPerson(); // Using 'this' to return the current object
+
+        System.out.print("Person 1: ");
+        person1.display(); // Output: Name: Alice
+
+        System.out.print("Person 2: ");
+        person2.display(); // Output: Name: Alice
+    }
+}
+```
+
+In this example, the `getPerson` method returns the current object using `this`. When `person1.getPerson()` is called, it returns the `person1` object itself. The `person2` object now refers to the same object as `person1`, and both `person1` and `person2` can be used interchangeably to access the same object's properties and methods.
+
+5. **To pass as an argument in the method call**: `this` can be passed as an argument in the method call.
+   Here's an example demonstrating how `this` can be passed as an argument in a method call:
+
+```java
+class Person {
+    String name;
+
+    Person(String name) {
+        this.name = name;
+    }
+
+    // Method that takes another Person object as an argument
+    void displayOtherPerson(Person otherPerson) {
+        System.out.println("Other Person's name: " + otherPerson.name);
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        Person person1 = new Person("Alice");
+        Person person2 = new Person("Bob");
+
+        System.out.print("Person 1: ");
+        person1.display(); // Output: Name: Alice
+
+        System.out.print("Person 2: ");
+        person2.display(); // Output: Name: Bob
+
+        // Passing 'person2' object as an argument to the 'displayOtherPerson' method of 'person1'
+        person1.displayOtherPerson(person2); // Output: Other Person's name: Bob
+    }
+}
+```
+
+In this example, the `displayOtherPerson` method of the `Person` class takes another `Person` object as an argument. Inside the `main` method, we create two `Person` objects (`person1` and `person2`). We then pass `person2` as an argument to the `displayOtherPerson` method of `person1`, effectively passing the `person2` object itself to the method.
+6. **To call the constructor of the same class**: `this()` can be used to call the constructor of the same class from another constructor. This is known as constructor chaining.
+
+Example:
+```java
+class Student {
+    String name;
+
+    Student() {
+        this("Alice"); // Calling parameterized constructor using 'this'
+    }
+
+    Student(String name) {
+        this.name = name;
+    }
+
+    void display() {
+        System.out.println("Name: " + name);
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.display(); // Output: Name: Alice
+    }
+}
+```
+
+In summary, the `this` keyword in Java is used to refer to the current object. It can be used to access instance variables, invoke methods, pass as an argument, return the current object, and call the constructor of the same class.
+
 
