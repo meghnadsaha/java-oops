@@ -352,6 +352,57 @@ public int add(int a, int b) {
     return a + b;
 }
 ```
+In Java, a method's return type determines the type of value that the method can return. Here are some common return types with explanations and examples:
+
+1. **void**: Indicates that the method does not return any value.
+
+   ```java
+   public void greet() {
+       System.out.println("Hello!");
+   }
+   ```
+
+2. **Primitive types (int, double, boolean, etc.)**: Methods can return primitive data types.
+
+   ```java
+   public int add(int a, int b) {
+       return a + b;
+   }
+   ```
+
+3. **Object types**: Methods can return objects of any class, including custom classes.
+
+   ```java
+   public String getGreeting() {
+       return "Hello!";
+   }
+   ```
+
+4. **Array types**: Methods can return arrays of any type.
+
+   ```java
+   public int[] getNumbers() {
+       return new int[]{1, 2, 3, 4, 5};
+   }
+   ```
+
+5. **Interface types**: Methods can return objects that implement an interface.
+
+   ```java
+   public List<String> getList() {
+       return Arrays.asList("Java", "Python", "C++");
+   }
+   ```
+
+6. **Generic types**: Methods can return a generic type.
+
+   ```java
+   public <T> T getFirst(List<T> list) {
+       return list.get(0);
+   }
+   ```
+
+7. **void vs. return types**: Methods with a return type of `void` do not return a value, while methods with other return types must use the `return` keyword to return a value of that type.
 
 #### Method Name and Explanation with Examples
 The method name is a unique identifier for the method within the class.
