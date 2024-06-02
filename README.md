@@ -4127,3 +4127,587 @@ class B implements A.NestedInterface {
 ```
 
 This nested interface can be implemented by any class, providing a way to logically group interfaces with the classes that use them.
+
+
+### Java Encapsulation
+
+Encapsulation is one of the fundamental principles of object-oriented programming. It is the mechanism of wrapping the data (variables) and code (methods) together as a single unit. In encapsulation, the variables of a class will be hidden from other classes and can be accessed only through the methods of their current class.
+
+### Java Package
+
+A package in Java is a namespace for organizing classes and interfaces in a logical manner. Placing your code into packages makes large software projects easier to manage.
+
+### Example of Package
+
+Create a package named `mypackage`:
+
+**MyClass.java:**
+
+```java
+package mypackage;
+
+public class MyClass {
+    public void display() {
+        System.out.println("Hello from MyClass");
+    }
+}
+```
+
+### How to Compile Java Package
+
+To compile the `MyClass.java` file:
+
+```sh
+javac -d . MyClass.java
+```
+
+This command compiles the `MyClass.java` file and puts the compiled `.class` file in the corresponding package directory (`mypackage`).
+
+### How to Access Package from Another Package
+
+**MainClass.java:**
+
+```java
+package anotherpackage;
+
+import mypackage.MyClass;
+
+public class MainClass {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        obj.display();
+    }
+}
+```
+
+### Accessing Package
+
+#### By `import packagename.*`
+
+```java
+import mypackage.*;
+```
+
+#### By `import packagename.classname`
+
+```java
+import mypackage.MyClass;
+```
+
+#### By Fully Qualified Name
+
+```java
+mypackage.MyClass obj = new mypackage.MyClass();
+```
+
+### Another Way to Run This Program by -classpath Switch of Java
+
+To run the program with the `-classpath` switch:
+
+```sh
+javac -d . MainClass.java
+java -classpath . anotherpackage.MainClass
+```
+
+### Subpackage
+
+A subpackage is a package inside another package. For example, `mypackage.subpackage` is a subpackage of `mypackage`.
+
+**SubClass.java:**
+
+```java
+package mypackage.subpackage;
+
+public class SubClass {
+    public void display() {
+        System.out.println("Hello from SubClass");
+    }
+}
+```
+
+### Sending Class File to Another Directory
+
+To send the class file to another directory, use the `-d` option with the `javac` command.
+
+```sh
+javac -d /path/to/directory MyClass.java
+```
+
+### -classpath Switch
+
+The `-classpath` switch is used to set the path for finding class files. It can include directories, JAR files, and ZIP files.
+
+### 4 Ways to Load the Class File or JAR File
+
+1. **Using `-classpath` or `-cp` switch in the command line:**
+
+    ```sh
+    java -classpath /path/to/classes:/path/to/jarfile.jar MainClass
+    ```
+
+2. **Setting the `CLASSPATH` environment variable:**
+
+    ```sh
+    export CLASSPATH=/path/to/classes:/path/to/jarfile.jar
+    ```
+
+3. **Using the `Class.forName` method:**
+
+    ```java
+    Class.forName("com.example.MyClass");
+    ```
+
+4. **Using a URLClassLoader:**
+
+    ```java
+    URLClassLoader classLoader = URLClassLoader.newInstance(
+        new URL[] { new URL("file:///path/to/jarfile.jar") }
+    );
+    Class<?> cls = Class.forName("com.example.MyClass", true, classLoader);
+    ```
+
+### How to Put Two Public Classes in a Package
+
+You cannot have two public classes in a single file. Each public class must be in its own file.
+
+### Static Import
+
+Static import allows you to access static members of a class directly without specifying the class name.
+
+```java
+import static java.lang.Math.*;
+
+public class StaticImportExample {
+    public static void main(String[] args) {
+        System.out.println(sqrt(16));
+        System.out.println(max(10, 20));
+    }
+}
+```
+
+### Package Class
+
+The `Package` class in Java provides information about a Java package, such as the package name, specification title, specification version, etc.
+
+```java
+public class PackageExample {
+    public static void main(String[] args) {
+        Package pack = Package.getPackage("java.lang");
+        System.out.println("Package name: " + pack.getName());
+        System.out.println("Specification title: " + pack.getSpecificationTitle());
+        System.out.println("Specification version: " + pack.getSpecificationVersion());
+    }
+}
+```
+
+### Example: Java Package and Encapsulation
+
+**mypackage/MyClass.java:**
+
+```java
+package mypackage;
+
+public class MyClass {
+    private String message = "Hello from MyClass";
+
+    public void displayMessage() {
+        System.out.println(message);
+    }
+}
+```
+
+**anotherpackage/MainClass.java:**
+
+```java
+package anotherpackage;
+
+import mypackage.MyClass;
+
+public class MainClass {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();
+        obj.displayMessage();
+    }
+}
+```
+
+**Compilation and Execution:**
+
+```sh
+javac -d . mypackage/MyClass.java
+javac -d . anotherpackage/MainClass.java
+java -classpath . anotherpackage.MainClass
+```
+
+This example demonstrates how to create and use packages, ensuring encapsulation of class members.
+
+Here's a full example of encapsulation in a vending machine:
+
+```java
+// VendingMachine.java
+public class VendingMachine {
+    private int numberOfItems;
+    private int itemPrice;
+
+    public VendingMachine(int numberOfItems, int itemPrice) {
+        this.numberOfItems = numberOfItems;
+        this.itemPrice = itemPrice;
+    }
+
+    public void purchaseItem() {
+        if (numberOfItems > 0) {
+            System.out.println("Item purchased. Enjoy!");
+            numberOfItems--;
+        } else {
+            System.out.println("Out of stock.");
+        }
+    }
+
+    public void refill(int newItems) {
+        numberOfItems += newItems;
+        System.out.println("Refilled vending machine with " + newItems + " items.");
+    }
+
+    public int getNumberOfItems() {
+        return numberOfItems;
+    }
+
+    public int getItemPrice() {
+        return itemPrice;
+    }
+
+    public static void main(String[] args) {
+        VendingMachine vendingMachine = new VendingMachine(5, 10);
+        System.out.println("Initial number of items: " + vendingMachine.getNumberOfItems());
+        System.out.println("Item price: " + vendingMachine.getItemPrice());
+
+        vendingMachine.purchaseItem();
+        vendingMachine.purchaseItem();
+        vendingMachine.purchaseItem();
+
+        vendingMachine.refill(10);
+        System.out.println("Final number of items: " + vendingMachine.getNumberOfItems());
+    }
+}
+```
+
+In this example, the `VendingMachine` class encapsulates the number of items and the item price. The `purchaseItem()` method allows purchasing an item if there are items in stock. The `refill()` method allows adding more items to the vending machine. The `getNumberOfItems()` and `getItemPrice()` methods are used to retrieve the values of the private variables. The `main` method demonstrates how to use the vending machine.
+
+Here are two more examples demonstrating encapsulation:
+
+### Example 1: Employee Class
+
+```java
+public class Employee {
+    private String name;
+    private int id;
+    private double salary;
+
+    public Employee(String name, int id, double salary) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        if (salary > 0) {
+            this.salary = salary;
+        }
+    }
+
+    public static void main(String[] args) {
+        Employee emp = new Employee("John Doe", 12345, 50000.0);
+        System.out.println("Employee Name: " + emp.getName());
+        System.out.println("Employee ID: " + emp.getId());
+        System.out.println("Employee Salary: " + emp.getSalary());
+
+        // Trying to set a negative salary, which will not work due to encapsulation
+        emp.setSalary(-5000.0);
+        System.out.println("Employee Salary after trying to set negative value: " + emp.getSalary());
+    }
+}
+```
+
+### Example 2: Bank Account Class
+
+```java
+public class BankAccount {
+    private String accountNumber;
+    private double balance;
+
+    public BankAccount(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;
+        }
+    }
+
+    public static void main(String[] args) {
+        BankAccount account = new BankAccount("123456789", 1000.0);
+        System.out.println("Account Number: " + account.getAccountNumber());
+        System.out.println("Balance: " + account.getBalance());
+
+        // Deposit and withdraw operations
+        account.deposit(500.0);
+        System.out.println("Balance after deposit: " + account.getBalance());
+
+        account.withdraw(200.0);
+        System.out.println("Balance after withdrawal: " + account.getBalance());
+    }
+}
+```
+
+In both examples, the data (name, id, salary, account number, balance) is encapsulated within the respective classes, and access to this data is controlled through getter and setter methods. This helps in ensuring data integrity and allows for better control over the behavior of the class.
+
+### Coupling
+
+Coupling refers to the degree of dependency between modules or classes. In software engineering, low coupling is considered desirable because it indicates that changes to one module will have minimal impact on other modules. High coupling, on the other hand, means that changes in one module will likely require changes in other modules, making the codebase more difficult to maintain and evolve.
+
+### Vending Machine Example with Low Coupling
+
+In this example, we'll create a vending machine system with low coupling using the principles of encapsulation and separation of concerns. We'll have three classes: `VendingMachine` (for managing the vending machine), `Product` (for representing products in the machine), and `Coin` (for representing coins used for transactions).
+
+#### Coin.java
+
+```java
+public class Coin {
+    private double value;
+
+    public Coin(double value) {
+        this.value = value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+}
+```
+
+#### Product.java
+
+```java
+public class Product {
+    private String name;
+    private double price;
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+```
+
+#### VendingMachine.java
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class VendingMachine {
+    private List<Product> products;
+    private List<Coin> coins;
+
+    public VendingMachine() {
+        products = new ArrayList<>();
+        coins = new ArrayList<>();
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+    }
+
+    public void addCoin(Coin coin) {
+        coins.add(coin);
+    }
+
+    public void displayProducts() {
+        for (Product product : products) {
+            System.out.println(product.getName() + " - $" + product.getPrice());
+        }
+    }
+
+    public void displayCoins() {
+        for (Coin coin : coins) {
+            System.out.println("$" + coin.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        VendingMachine vendingMachine = new VendingMachine();
+        vendingMachine.addProduct(new Product("Soda", 1.50));
+        vendingMachine.addProduct(new Product("Chips", 1.00));
+        vendingMachine.addCoin(new Coin(1.00));
+        vendingMachine.addCoin(new Coin(0.25));
+
+        vendingMachine.displayProducts();
+        vendingMachine.displayCoins();
+    }
+}
+```
+
+In this example, `Coin`, `Product`, and `VendingMachine` are loosely coupled. Changes to one class (e.g., adding a new product or coin) do not require changes to the other classes, which promotes maintainability and flexibility in the codebase.
+
+### Cohesion
+
+refers to the degree to which the elements inside a module or class belong together. It measures how closely related and focused the responsibilities of a single module or class are. High cohesion indicates that the elements within the module are related and work together to perform a single task or responsibility.
+
+| Aspect         | High Cohesion                                                   | Low Cohesion                                                   |
+|----------------|----------------------------------------------------------------|---------------------------------------------------------------|
+| Definition     | Elements of a module or class are highly related and focused.  | Elements of a module or class are not closely related.        |
+| Focus          | Single, well-defined responsibility or task.                   | Multiple, possibly unrelated responsibilities or tasks.       |
+| Code Quality   | Improves maintainability, readability, and reusability.        | Decreases maintainability, readability, and reusability.      |
+| Example        | A `Calculator` class that only performs arithmetic operations. | A `Calculator` class that performs arithmetic and file I/O.   |
+| Impact         | Easier to understand, maintain, and modify.                    | More complex, harder to understand, maintain, and modify.    |
+
+In summary, high cohesion results in more maintainable and understandable code, while low cohesion can lead to code that is difficult to maintain and understand.
+
+### Example with High Cohesion: Calculator
+
+In this example, we'll create a simple calculator class with high cohesion. The calculator class will have methods for basic arithmetic operations.
+
+#### Calculator.java
+
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public double divide(double a, double b) {
+        if (b == 0) {
+            throw new IllegalArgumentException("Cannot divide by zero");
+        }
+        return a / b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+        System.out.println("Addition: " + calculator.add(5, 3));
+        System.out.println("Subtraction: " + calculator.subtract(5, 3));
+        System.out.println("Multiplication: " + calculator.multiply(5, 3));
+        System.out.println("Division: " + calculator.divide(5, 3));
+    }
+}
+```
+Here's an example of a class with low cohesion, including a `main` method, to demonstrate multiple unrelated functionalities within the same class:
+
+```java
+import java.io.*;
+import java.util.*;
+
+public class Utility {
+    public void readFromFile(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("Read line: " + line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToFile(String fileName, String data) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+            writer.println(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String reverseString(String str) {
+        return new StringBuilder(str).reverse().toString();
+    }
+
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public void drawShape(String shapeType) {
+        switch (shapeType.toLowerCase()) {
+            case "circle":
+                System.out.println("Drawing a circle");
+                break;
+            case "square":
+                System.out.println("Drawing a square");
+                break;
+            default:
+                System.out.println("Unknown shape");
+        }
+    }
+
+    public static void main(String[] args) {
+        Utility utility = new Utility();
+
+        // Read from file
+        System.out.println("Reading from file:");
+        utility.readFromFile("test.txt");
+
+        // Write to file
+        System.out.println("\nWriting to file:");
+        utility.writeToFile("output.txt", "Hello, World!");
+
+        // Reverse string
+        System.out.println("\nReversed string:");
+        System.out.println(utility.reverseString("Hello"));
+
+        // Add numbers
+        System.out.println("\nAddition result:");
+        System.out.println(utility.add(5, 3));
+
+        // Draw shapes
+        System.out.println("\nDrawing shapes:");
+        utility.drawShape("circle");
+        utility.drawShape("square");
+        utility.drawShape("triangle");
+    }
+}
+```
+
+In this example, the `Utility` class combines methods for reading from a file, writing to a file, reversing a string, adding numbers, and drawing shapes. These functionalities are unrelated and should ideally be separated into different classes to improve cohesion.
