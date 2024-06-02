@@ -594,6 +594,48 @@ public class MyClass {
 ```
 
 In this example, `staticVar` is a static variable and `instanceVar` is an instance variable. Static methods can directly access static variables, but they cannot access instance variables. Instance methods can access both static and instance variables.
+In Java, methods can be categorized into two main types: predefined methods and user-defined methods.
+
+### Predefined Methods
+Predefined methods, also known as built-in methods or standard methods, are methods that are already defined in Java's libraries and can be directly used in your code. These methods are part of Java's standard API and provide functionality for common tasks.
+
+Examples of predefined methods include methods for:
+- Performing mathematical operations (`Math.sqrt()`, `Math.max()`, etc.)
+- Manipulating strings (`String.length()`, `String.substring()`, etc.)
+- Reading input from the user (`Scanner.nextLine()`, etc.)
+- Working with arrays (`Arrays.sort()`, etc.)
+- Managing dates and times (`LocalDate.now()`, `LocalDateTime.parse()`, etc.)
+
+### User-defined Methods
+User-defined methods are created by the programmer to perform specific tasks that are not covered by predefined methods. These methods are defined within a class and can be called from other parts of the program to execute the code inside them.
+
+Example of a user-defined method:
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+
+    public int subtract(int a, int b) {
+        return a - b;
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        int sum = calc.add(5, 3); // Calling the add() method
+        int difference = calc.subtract(5, 3); // Calling the subtract() method
+        System.out.println("Sum: " + sum);
+        System.out.println("Difference: " + difference);
+    }
+}
+```
+
+In this example, `add()` and `subtract()` are user-defined methods that perform addition and subtraction operations, respectively.
+
+### Summary
+- Predefined methods are built-in methods provided by Java's standard API.
+- User-defined methods are created by the programmer to perform specific tasks.
+- Both types of methods can be used in Java programs to achieve desired functionality.
 
 #### How to Create a User-defined Method
 To create a user-defined method, use the following syntax:
