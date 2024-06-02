@@ -653,30 +653,127 @@ To call or invoke a user-defined method, use the following syntax:
 ```java
 <method name>(<arguments>);
 ```
+Sure, I'll explain each type of method with examples and demonstrate calling them from a main class.
 
-#### Factory Method and Explanation with Examples
-A factory method is a static method that creates and returns instances of a class.
+1. **Accessor Method**: Accessor methods, also known as getter methods, are used to access the value of an instance variable. They do not modify the state of the object.
 
-Example:
 ```java
-public class MyClass {
-    private int value;
+public class Person {
+    private String name;
 
-    private MyClass(int value) {
-        this.value = value;
+    public Person(String name) {
+        this.name = name;
     }
 
-    public static MyClass createInstance(int value) {
-        return new MyClass(value);
+    public String getName() {
+        return name;
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        MyClass obj = MyClass.createInstance(10);
+        Person person = new Person("Alice");
+        String name = person.getName();
+        System.out.println("Name: " + name);
     }
 }
 ```
+
+2. **Mutator Method**: Mutator methods, also known as setter methods, are used to modify the value of an instance variable.
+
+```java
+public class Person {
+    private String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person("Alice");
+        person.setName("Bob");
+        System.out.println("New Name: " + person.getName());
+    }
+}
+```
+
+3. **Abstract Method**: Abstract methods are declared in an abstract class or interface but do not have an implementation. They must be implemented by subclasses.
+
+```java
+public abstract class Shape {
+    public abstract double area();
+}
+
+public class Circle extends Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Shape shape = new Circle(5.0);
+        System.out.println("Area of Circle: " + shape.area());
+    }
+}
+```
+
+4. **Factory Method**: Factory methods are used to create objects without specifying the exact class of object that will be created. They are often used in design patterns like Factory Method Pattern.
+
+```java
+public interface Animal {
+    void makeSound();
+}
+
+public class Dog implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Woof");
+    }
+}
+
+public class Cat implements Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Meow");
+    }
+}
+
+public class AnimalFactory {
+    public static Animal createAnimal(String type) {
+        if ("dog".equalsIgnoreCase(type)) {
+            return new Dog();
+        } else if ("cat".equalsIgnoreCase(type)) {
+            return new Cat();
+        }
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal dog = AnimalFactory.createAnimal("dog");
+        dog.makeSound();
+
+        Animal cat = AnimalFactory.createAnimal("cat");
+        cat.makeSound();
+    }
+}
+```
+
 
 ### Summary
 - Methods in Java are blocks of code that perform specific tasks.
