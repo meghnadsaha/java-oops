@@ -2377,18 +2377,7 @@ In the given example, the `super` keyword is used in two places:
 1. **Single Inheritance**: When a class inherits from only one superclass.
    In single inheritance, a subclass inherits from only one superclass. Here's an example with a UML diagram and corresponding Java code:
 
-### UML Diagram:
-
-```
-
-      +--------------+        +-----------------+      
-    |    Vehicle   | <------|     Car           | 
-    +--------------+        +-------------------+      
-    |  maxSpeed    |        |  mileage          |       
-    +--------------+        +-------------------+       
-    |  displaySpeed()       |  displayMileage() | 
-    +--------------+        +-------------------+       
-```
+<img  src="https://github.com/meghnadsaha/java-oops/blob/master/resources/Single%20Inheritance.png"/>
 
 ### Java Code:
 
@@ -2512,28 +2501,7 @@ In this example, `Electric` is a subclass of `Car`, which is itself a subclass o
 
 3. **Hierarchical Inheritance**: When multiple classes inherit from a single superclass.
    In hierarchical inheritance, multiple classes inherit from a single superclass. Here's an example with a UML diagram showing hierarchical inheritance with hollow triangle arrowheads pointing from the subclasses to the superclass:
-
-### UML Diagram:
-
-```
-          +--------------+
-          |    Vehicle   | 
-          +--------------+
-          |  maxSpeed    | 
-          +--------------+
-          |  displaySpeed()       
-          +--------------+
-                /    \
-               /      \
-              /        \
- +--------------+     +--------------------+
- |     Car      |     |   Motorcycle       |
- +--------------+     +--------------------+
- |  mileage     |     |   engineSize       |
- +--------------+     +--------------------+
- |  displayMileage()  | displayEngineSize()|
- +--------------+     +--------------------+
-```
+<img src="https://github.com/meghnadsaha/java-oops/blob/master/resources/Hierarchical%20Inheritance.png"/>
 
 In this diagram, both `Car` and `Motorcycle` inherit from `Vehicle`. The hollow triangle arrowheads point from `Car` and `Motorcycle` to `Vehicle`, indicating that they inherit from `Vehicle`.
 
