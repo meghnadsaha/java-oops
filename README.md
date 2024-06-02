@@ -907,3 +907,193 @@ To call or invoke a user-defined method, use the following syntax:
 - The method body contains the statements that define what the method does.
 - Method names should be meaningful and follow camelCase convention.
 - There are static methods, instance methods, and factory methods in Java.
+
+
+
+### Constructors in Java
+
+#### Rules for Creating Java Constructor
+1. Constructor name must be the same as its class name.
+2. A Constructor must have no explicit return type.
+3. A Java constructor cannot be abstract, static, final, or synchronized.
+
+#### Types of Java Constructors
+1. **Default Constructor (No-Arg Constructor)**: This is a constructor with no parameters. If you don't define any constructor in your class, the compiler automatically adds a default constructor.
+
+2. **Parameterized Constructor**: This is a constructor with parameters.
+### Default Constructor (No-Arg Constructor)
+
+Example:
+```java
+class Person {
+    private String name;
+    private int age;
+
+    // Default constructor
+    public Person() {
+        this.name = "John Doe";
+        this.age = 30;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person(); // Default constructor called
+        person.display(); // Output: Name: John Doe, Age: 30
+    }
+}
+```
+
+### Parameterized Constructor
+A parameterized constructor is a constructor with parameters. It allows you to initialize an object with specific values at the time of creation.
+
+Example:
+```java
+class Person {
+    private String name;
+    private int age;
+
+    // Parameterized constructor
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person("Alice", 25); // Parameterized constructor called
+        person.display(); // Output: Name: Alice, Age: 25
+    }
+}
+```
+
+In the examples above, the `Person` class demonstrates both a default constructor and a parameterized constructor. The default constructor initializes the `name` to "John Doe" and `age` to 30, while the parameterized constructor allows you to specify the `name` and `age` values at the time of object creation.
+
+#### Constructor Overloading in Java
+Constructor overloading is the ability to define multiple constructors in a class with different parameters.
+
+Constructor overloading in Java allows a class to have multiple constructors with different parameter lists. The compiler uses the number and types of parameters to determine which constructor to invoke. Here's an example demonstrating constructor overloading:
+
+```java
+class Rectangle {
+    private int length;
+    private int width;
+
+    // Default constructor
+    public Rectangle() {
+        this.length = 0;
+        this.width = 0;
+    }
+
+    // Parameterized constructor with one parameter
+    public Rectangle(int side) {
+        this.length = side;
+        this.width = side;
+    }
+
+    // Parameterized constructor with two parameters
+    public Rectangle(int length, int width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public void display() {
+        System.out.println("Length: " + length + ", Width: " + width);
+    }
+
+    public static void main(String[] args) {
+        Rectangle rectangle1 = new Rectangle(); // Default constructor called
+        rectangle1.display(); // Output: Length: 0, Width: 0
+
+        Rectangle rectangle2 = new Rectangle(5); // Parameterized constructor with one parameter called
+        rectangle2.display(); // Output: Length: 5, Width: 5
+
+        Rectangle rectangle3 = new Rectangle(10, 7); // Parameterized constructor with two parameters called
+        rectangle3.display(); // Output: Length: 10, Width: 7
+    }
+}
+```
+
+In this example, the `Rectangle` class has three constructors: a default constructor, a parameterized constructor with one parameter (for creating a square), and a parameterized constructor with two parameters (for creating a rectangle with custom length and width). Depending on the number of arguments passed, the appropriate constructor is called.
+
+#### Difference Between Constructor and Method in Java
+| Feature           | Constructor                           | Method                                |
+|-------------------|---------------------------------------|---------------------------------------|
+| Name              | Same as class name                    | Any valid identifier                  |
+| Return Type       | No return type (not even void)        | Can have a return type                |
+| Invocation        | Automatically invoked on object creation | Explicitly called using object       |
+| Purpose           | Initializes object state              | Performs some functionality           |
+| Keyword           | Uses `new` keyword for object creation | Does not use `new` keyword           |
+| Overloading       | Can be overloaded                     | Can be overloaded                     |
+| Inheritance       | Not inherited                         | Inherited unless marked final or static |
+| Access Modifiers  | Can have access modifiers             | Can have access modifiers             |
+| Abstract          | Cannot be abstract                   | Can be abstract                       |
+| Static            | Cannot be static                     | Can be static                         |
+
+These are general differences and may vary based on specific programming languages and contexts.
+
+#### Java Copy Constructor
+A copy constructor is a constructor that creates an object by copying the values of another object.
+
+Example:
+```java
+class Student {
+    private String name;
+
+    // Copy constructor
+    public Student(Student other) {
+        this.name = other.name;
+    }
+
+    public Student(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static void main(String[] args) {
+        Student student1 = new Student("Alice");
+        Student student2 = new Student(student1); // Using copy constructor
+        System.out.println(student2.getName()); // Output: Alice
+    }
+}
+```
+
+#### Copying Values Without Constructor
+Values of one object can be copied into another in Java by assigning the values or by using the `clone()` method.
+
+Example:
+```java
+class Student {
+    private String name;
+
+    public Student(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static void main(String[] args) {
+        Student student1 = new Student("Alice");
+        Student student2 = new Student("");
+        student2.name = student1.name; // Copying values without constructor
+        System.out.println(student2.getName()); // Output: Alice
+    }
+}
+```
+
+#### Other Questions
+- **Does Constructor Return Any Value?**: No, constructors do not return any value.
+- **Can Constructor Perform Other Tasks Instead of Initialization?**: Yes, a constructor can perform other tasks, but it is primarily used for object initialization.
+- **Is There a Constructor Class in Java?**: No, there is no special class called Constructor in Java.
+- **What Is the Purpose of Constructor Class?**: Constructors are used to create and initialize objects in Java.
+
