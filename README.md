@@ -514,131 +514,178 @@ public void calculateSum(int a, int b) {
 }
 ```
 
-#### Types of Method and Explanation with Examples
-- **Static Method**: Belongs to the class rather than an instance of the class. Can be called without creating an instance.
-- **Instance Method**: Belongs to an instance of the class and can access instance variables and other instance methods.
+### Predefined Methods
+Predefined methods are built-in methods provided by Java's standard API. These methods are ready to use and provide functionality for common tasks.
 
 Example:
 ```java
-public static void staticMethod() {
-    System.out.println("This is a static method.");
-}
-
-public void instanceMethod() {
-    System.out.println("This is an instance method.");
-}
-```
-Here are examples of static and instance methods in Java, along with how to call them from the `main` method:
-
-1. **Static Method Example:**
-
-```java
-public class MyClass {
-    public static void staticMethod() {
-        System.out.println("This is a static method.");
-    }
-
+public class PredefinedMethodsExample {
     public static void main(String[] args) {
-        // Calling a static method
-        staticMethod();
+        // Using predefined methods
+        String text = "Hello, World!";
+        System.out.println("Length of the text: " + text.length());
+
+        int[] numbers = {1, 2, 3, 4, 5};
+        int sum = 0;
+        for (int num : numbers) {
+            sum += num;
+        }
+        System.out.println("Sum of numbers: " + sum);
     }
 }
 ```
-
-In this example, `staticMethod` is a static method of the `MyClass` class. It can be called using the class name (`MyClass.staticMethod()`), but when calling it from within the class, you can omit the class name (`staticMethod()`).
-
-2. **Instance Method Example:**
-
-```java
-public class MyClass {
-    public void instanceMethod() {
-        System.out.println("This is an instance method.");
-    }
-
-    public static void main(String[] args) {
-        // Creating an instance of MyClass
-        MyClass obj = new MyClass();
-
-        // Calling an instance method using the object
-        obj.instanceMethod();
-    }
-}
-```
-
-In this example, `instanceMethod` is an instance method of the `MyClass` class. You need to create an instance of the class (`MyClass obj = new MyClass();`) to call the instance method (`obj.instanceMethod();`).
-
-3. **Static vs. Instance Method Access:**
-
-```java
-public class MyClass {
-    private static String staticVar = "Static Variable";
-    private String instanceVar = "Instance Variable";
-
-    public static void staticMethod() {
-        System.out.println(staticVar); // Accessing static variable directly
-        // System.out.println(instanceVar); // Error: Cannot access instance variable in static context
-    }
-
-    public void instanceMethod() {
-        System.out.println(staticVar); // Accessing static variable in instance method
-        System.out.println(instanceVar); // Accessing instance variable directly
-    }
-
-    public static void main(String[] args) {
-        staticMethod(); // Calling static method
-        // instanceMethod(); // Error: Cannot call instance method without an instance
-        MyClass obj = new MyClass();
-        obj.instanceMethod(); // Calling instance method using object
-    }
-}
-```
-
-In this example, `staticVar` is a static variable and `instanceVar` is an instance variable. Static methods can directly access static variables, but they cannot access instance variables. Instance methods can access both static and instance variables.
-In Java, methods can be categorized into two main types: predefined methods and user-defined methods.
-
-### Predefined Methods
-Predefined methods, also known as built-in methods or standard methods, are methods that are already defined in Java's libraries and can be directly used in your code. These methods are part of Java's standard API and provide functionality for common tasks.
-
-Examples of predefined methods include methods for:
-- Performing mathematical operations (`Math.sqrt()`, `Math.max()`, etc.)
-- Manipulating strings (`String.length()`, `String.substring()`, etc.)
-- Reading input from the user (`Scanner.nextLine()`, etc.)
-- Working with arrays (`Arrays.sort()`, etc.)
-- Managing dates and times (`LocalDate.now()`, `LocalDateTime.parse()`, etc.)
 
 ### User-defined Methods
 User-defined methods are created by the programmer to perform specific tasks that are not covered by predefined methods. These methods are defined within a class and can be called from other parts of the program to execute the code inside them.
 
-Example of a user-defined method:
+Example:
 ```java
-public class Calculator {
-    public int add(int a, int b) {
+public class UserDefinedMethodsExample {
+    // User-defined method
+    public static int add(int a, int b) {
         return a + b;
     }
 
-    public int subtract(int a, int b) {
-        return a - b;
-    }
-
     public static void main(String[] args) {
-        Calculator calc = new Calculator();
-        int sum = calc.add(5, 3); // Calling the add() method
-        int difference = calc.subtract(5, 3); // Calling the subtract() method
-        System.out.println("Sum: " + sum);
-        System.out.println("Difference: " + difference);
+        // Calling the user-defined method
+        int result = add(10, 20);
+        System.out.println("Result of addition: " + result);
     }
 }
 ```
 
+### Static Method
+A static method belongs to the class rather than an instance of the class. It can be called without creating an instance of the class.
 
-### Next ....
+Example:
+```java
+public class StaticMethodExample {
+    // Static method
+    public static void greet() {
+        System.out.println("Hello, World!");
+    }
 
-In this example, `add()` and `subtract()` are user-defined methods that perform addition and subtraction operations, respectively.
+    public static void main(String[] args) {
+        // Calling the static method
+        greet();
+    }
+}
+```
 
-### Summary
-- Predefined methods are built-in methods provided by Java's standard API.
-- User-defined methods are created by the programmer to perform specific tasks.
-- Both types of methods can be used in Java programs to achieve desired functionality.
+### Instance Method
+An instance method belongs to an instance of the class and can access instance variables and other instance methods.
+
+Example:
+```java
+public class InstanceMethodExample {
+    // Instance method
+    public void greet() {
+        System.out.println("Hello, World!");
+    }
+
+    public static void main(String[] args) {
+        // Creating an instance of the class
+        InstanceMethodExample obj = new InstanceMethodExample();
+        // Calling the instance method using the instance
+        obj.greet();
+    }
+}
+```
+
+#### Accessor Method
+Accessor methods, also known as getter methods, are used to retrieve the value of an instance variable.
+
+Example:
+```java
+public class AccessorMethodExample {
+    private int number;
+
+    // Accessor method
+    public int getNumber() {
+        return number;
+    }
+
+    public static void main(String[] args) {
+        AccessorMethodExample obj = new AccessorMethodExample();
+        obj.number = 10;
+        System.out.println("Number: " + obj.getNumber());
+    }
+}
+```
+
+#### Mutator Method
+Mutator methods, also known as setter methods, are used to modify the value of an instance variable.
+
+Example:
+```java
+public class MutatorMethodExample {
+    private int number;
+
+    // Mutator method
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public static void main(String[] args) {
+        MutatorMethodExample obj = new MutatorMethodExample();
+        obj.setNumber(20);
+        System.out.println("Number: " + obj.number);
+    }
+}
+```
+
+### Abstract Method
+An abstract method is a method that is declared in an abstract class but does not have an implementation. Subclasses of the abstract class must provide an implementation for the abstract method.
+
+Example:
+```java
+public abstract class AbstractMethodExample {
+    // Abstract method
+    public abstract void display();
+
+    public static void main(String[] args) {
+        // Cannot create an instance of an abstract class
+        // AbstractMethodExample obj = new AbstractMethodExample();
+    }
+}
+
+public class ConcreteClass extends AbstractMethodExample {
+    // Implementation of the abstract method
+    @Override
+    public void display() {
+        System.out.println("Abstract method implementation");
+    }
+
+    public static void main(String[] args) {
+        ConcreteClass obj = new ConcreteClass();
+        obj.display();
+    }
+}
+```
+
+### Factory Method
+A factory method is a static method that creates and returns instances of a class.
+
+Example:
+```java
+public class FactoryMethodExample {
+    private int value;
+
+    private FactoryMethodExample(int value) {
+        this.value = value;
+    }
+
+    // Factory method
+    public static FactoryMethodExample createInstance(int value) {
+        return new FactoryMethodExample(value);
+    }
+
+    public static void main(String[] args) {
+        FactoryMethodExample obj = FactoryMethodExample.createInstance(100);
+        System.out.println("Value: " + obj.value);
+    }
+}
+```
 
 #### How to Create a User-defined Method
 To create a user-defined method, use the following syntax:
@@ -652,126 +699,6 @@ To create a user-defined method, use the following syntax:
 To call or invoke a user-defined method, use the following syntax:
 ```java
 <method name>(<arguments>);
-```
-Sure, I'll explain each type of method with examples and demonstrate calling them from a main class.
-
-1. **Accessor Method**: Accessor methods, also known as getter methods, are used to access the value of an instance variable. They do not modify the state of the object.
-
-```java
-public class Person {
-    private String name;
-
-    public Person(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person person = new Person("Alice");
-        String name = person.getName();
-        System.out.println("Name: " + name);
-    }
-}
-```
-
-2. **Mutator Method**: Mutator methods, also known as setter methods, are used to modify the value of an instance variable.
-
-```java
-public class Person {
-    private String name;
-
-    public Person(String name) {
-        this.name = name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Person person = new Person("Alice");
-        person.setName("Bob");
-        System.out.println("New Name: " + person.getName());
-    }
-}
-```
-
-3. **Abstract Method**: Abstract methods are declared in an abstract class or interface but do not have an implementation. They must be implemented by subclasses.
-
-```java
-public abstract class Shape {
-    public abstract double area();
-}
-
-public class Circle extends Shape {
-    private double radius;
-
-    public Circle(double radius) {
-        this.radius = radius;
-    }
-
-    @Override
-    public double area() {
-        return Math.PI * radius * radius;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Shape shape = new Circle(5.0);
-        System.out.println("Area of Circle: " + shape.area());
-    }
-}
-```
-
-4. **Factory Method**: Factory methods are used to create objects without specifying the exact class of object that will be created. They are often used in design patterns like Factory Method Pattern.
-
-```java
-public interface Animal {
-    void makeSound();
-}
-
-public class Dog implements Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Woof");
-    }
-}
-
-public class Cat implements Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Meow");
-    }
-}
-
-public class AnimalFactory {
-    public static Animal createAnimal(String type) {
-        if ("dog".equalsIgnoreCase(type)) {
-            return new Dog();
-        } else if ("cat".equalsIgnoreCase(type)) {
-            return new Cat();
-        }
-        return null;
-    }
-}
-
-public class Main {
-    public static void main(String[] args) {
-        Animal dog = AnimalFactory.createAnimal("dog");
-        dog.makeSound();
-
-        Animal cat = AnimalFactory.createAnimal("cat");
-        cat.makeSound();
-    }
-}
 ```
 
 
