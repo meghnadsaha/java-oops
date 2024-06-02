@@ -667,25 +667,96 @@ public class ConcreteClass extends AbstractMethodExample {
 A factory method is a static method that creates and returns instances of a class.
 
 Example:
+Sure, here are two more examples of the factory method pattern in Java:
+
+### Example 1: Shape Factory
 ```java
+interface Shape {
+    void draw();
+}
+
+class Circle implements Shape {
+    @Override
+    public void draw() {
+        System.out.println("Drawing Circle");
+    }
+}
+
+class Rectangle implements Shape {
+    @Override
+    public void draw() {
+        System.out.println("Drawing Rectangle");
+    }
+}
+
+class ShapeFactory {
+    // Factory method to create shapes
+    public static Shape createShape(String type) {
+        if (type.equalsIgnoreCase("circle")) {
+            return new Circle();
+        } else if (type.equalsIgnoreCase("rectangle")) {
+            return new Rectangle();
+        } else {
+            throw new IllegalArgumentException("Invalid shape type");
+        }
+    }
+}
+
 public class FactoryMethodExample {
-    private int value;
-
-    private FactoryMethodExample(int value) {
-        this.value = value;
-    }
-
-    // Factory method
-    public static FactoryMethodExample createInstance(int value) {
-        return new FactoryMethodExample(value);
-    }
-
     public static void main(String[] args) {
-        FactoryMethodExample obj = FactoryMethodExample.createInstance(100);
-        System.out.println("Value: " + obj.value);
+        Shape circle = ShapeFactory.createShape("circle");
+        circle.draw();
+
+        Shape rectangle = ShapeFactory.createShape("rectangle");
+        rectangle.draw();
     }
 }
 ```
+
+### Example 2: Currency Factory
+```java
+interface Currency {
+    String getSymbol();
+}
+
+class Dollar implements Currency {
+    @Override
+    public String getSymbol() {
+        return "USD";
+    }
+}
+
+class Euro implements Currency {
+    @Override
+    public String getSymbol() {
+        return "EUR";
+    }
+}
+
+class CurrencyFactory {
+    // Factory method to create currencies
+    public static Currency createCurrency(String country) {
+        if (country.equalsIgnoreCase("USA")) {
+            return new Dollar();
+        } else if (country.equalsIgnoreCase("EUROPE")) {
+            return new Euro();
+        } else {
+            throw new IllegalArgumentException("Invalid country");
+        }
+    }
+}
+
+public class FactoryMethodExample {
+    public static void main(String[] args) {
+        Currency dollar = CurrencyFactory.createCurrency("USA");
+        System.out.println("Currency Symbol for USA: " + dollar.getSymbol());
+
+        Currency euro = CurrencyFactory.createCurrency("EUROPE");
+        System.out.println("Currency Symbol for Europe: " + euro.getSymbol());
+    }
+}
+```
+
 
 #### How to Create a User-defined Method
 To create a user-defined method, use the following syntax:
