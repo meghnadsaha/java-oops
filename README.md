@@ -4585,7 +4585,7 @@ public class VendingMachine {
 
 In this example, `Coin`, `Product`, and `VendingMachine` are loosely coupled. Changes to one class (e.g., adding a new product or coin) do not require changes to the other classes, which promotes maintainability and flexibility in the codebase.
 
-### Cohesion
+   ### Cohesion
 
 refers to the degree to which the elements inside a module or class belong together. It measures how closely related and focused the responsibilities of a single module or class are. High cohesion indicates that the elements within the module are related and work together to perform a single task or responsibility.
 
@@ -4717,6 +4717,8 @@ In this example, the `Utility` class combines methods for reading from a file, w
 
 In object-oriented programming, association represents a relationship between two classes where one class is related to another class in some way. Here's an example of association in Java:
 
+<img src="https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2020/06/Association-in-Java.jpg" />
+
 ```java
 import java.util.*;
 
@@ -4781,8 +4783,167 @@ public class AssociationExample {
 
 In this example, the `Employee` class is associated with the `Department` class through a unidirectional association. Each `Employee` belongs to a single `Department`, and each `Department` can have multiple `Employee`s. The `Employee` class holds a reference to its `Department`, allowing us to navigate the association from `Employee` to `Department`.
 
-### Coupling
-### Cohesion
-### Association
 ### Aggregation
+
+In object-oriented programming, aggregation is a type of association where a "whole" class contains objects of another class, but the contained objects can exist independently of the "whole" class. Here's an example of aggregation in Java:
+
+```java
+import java.util.*;
+
+class Department {
+    private String name;
+    private List<Employee> employees;
+
+    public Department(String name) {
+        this.name = name;
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+public class AggregationExample {
+    public static void main(String[] args) {
+        Department hr = new Department("Human Resources");
+        Employee john = new Employee("John Doe");
+        Employee jane = new Employee("Jane Smith");
+
+        hr.addEmployee(john);
+        hr.addEmployee(jane);
+
+        System.out.println("Department: " + hr.getName());
+        System.out.println("Employees:");
+        for (Employee employee : hr.getEmployees()) {
+            System.out.println("- " + employee.getName());
+        }
+    }
+}
+```
+
+In this example, the `Department` class contains a list of `Employee` objects. The `Department` class and `Employee` class have an aggregation relationship, as `Department` "has a" list of `Employee`s. The `Employee` objects can exist independently of the `Department` object, and they can be added to or removed from the `Department` as needed.
+### Aggregation
+
+Here's a simple example of aggregation in Java:
+
+```java
+import java.util.*;
+
+class Department {
+    private String name;
+    private List<Employee> employees;
+
+    public Department(String name) {
+        this.name = name;
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+public class AggregationExample {
+    public static void main(String[] args) {
+        Department hr = new Department("Human Resources");
+        Employee john = new Employee("John Doe");
+        Employee jane = new Employee("Jane Smith");
+
+        hr.addEmployee(john);
+        hr.addEmployee(jane);
+
+        System.out.println("Department: " + hr.getName());
+        System.out.println("Employees:");
+        for (Employee employee : hr.getEmployees()) {
+            System.out.println("- " + employee.getName());
+        }
+    }
+}
+```
+
+In this example, `Department` and `Employee` are two classes where `Department` has a list of `Employee`s. This is an example of aggregation, where `Department` is the "whole" and `Employee` is part of the "whole." The `Employee` objects can exist independently of the `Department` object, and they can be added to or removed from the `Department` as needed.
 ### Composition
+Composition is a stronger form of aggregation where the child object does not exist outside the scope of the parent object. Here's an example of composition in Java:
+
+```java
+class Engine {
+    private String type;
+
+    public Engine(String type) {
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+}
+
+class Car {
+    private String model;
+    private Engine engine;
+
+    public Car(String model, String engineType) {
+        this.model = model;
+        this.engine = new Engine(engineType);
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getEngineType() {
+        return engine.getType();
+    }
+}
+
+public class CompositionExample {
+    public static void main(String[] args) {
+        Car car = new Car("Toyota Camry", "V6");
+        System.out.println("Car Model: " + car.getModel());
+        System.out.println("Engine Type: " + car.getEngineType());
+    }
+}
+```
+
+In this example, `Car` has a composition relationship with `Engine`. The `Car` class has an `engine` field, and a `Car` object cannot exist without an `Engine` object. When a `Car` is created, it creates an `Engine` internally, and the `Engine` is part of the `Car` object. If the `Car` is destroyed, the `Engine` is also destroyed.
