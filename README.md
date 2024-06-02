@@ -229,7 +229,593 @@ public class InterfaceExample {
 }
 ```
 
-These examples demonstrate the use of arrays, strings, classes, and interfaces, which are non-primitive data types in Java.
+### Operators in Java
+
+#### Unary Operator
+
+Unary operators act on a single operand. Examples include `++`, `--`, `-`, and `!`.
+
+```java
+int x = 10;
+int y = -x; // Unary minus operator
+System.out.println("Unary minus: " + y); // Output: -10
+
+int a = 5;
+int b = ++a; // Pre-increment operator
+System.out.println("Pre-increment: " + b); // Output: 6
+
+int c = 5;
+int d = c++; // Post-increment operator
+System.out.println("Post-increment: " + d); // Output: 5
+
+boolean flag = true;
+boolean result = !flag; // Logical complement operator
+System.out.println("Logical complement: " + result); // Output: false
+```
+
+#### Arithmetic Operator
+
+Arithmetic operators perform mathematical operations. Examples include `+`, `-`, `*`, `/`, and `%`.
+
+```java
+int a = 10;
+int b = 3;
+System.out.println("Addition: " + (a + b)); // Output: 13
+System.out.println("Subtraction: " + (a - b)); // Output: 7
+System.out.println("Multiplication: " + (a * b)); // Output: 30
+System.out.println("Division: " + (a / b)); // Output: 3
+System.out.println("Modulus: " + (a % b)); // Output: 1
+```
+
+#### Shift Operator
+
+Shift operators shift the bits of a number left or right. Examples include `<<`, `>>`, and `>>>`.
+
+```java
+int num = 8;
+System.out.println("Left shift: " + (num << 1)); // Output: 16
+System.out.println("Right shift: " + (num >> 1)); // Output: 4
+```
+
+#### Relational Operator
+
+Relational operators compare two values. Examples include `<`, `>`, `<=`, `>=`, `==`, and `!=`.
+
+```java
+int a = 10;
+int b = 20;
+System.out.println("Greater than: " + (a > b)); // Output: false
+System.out.println("Less than or equal to: " + (a <= b)); // Output: true
+```
+
+#### Bitwise Operator
+
+Bitwise operators perform operations on individual bits. Examples include `&`, `|`, `^`, and `~`.
+
+```java
+int a = 5; // 101
+int b = 3; // 011
+System.out.println("Bitwise AND: " + (a & b)); // Output: 1 (001)
+System.out.println("Bitwise OR: " + (a | b)); // Output: 7 (111)
+```
+
+#### Logical Operator
+
+Logical operators perform logical operations. Examples include `&&`, `||`, and `!`.
+
+```java
+int a = 10;
+int b = 5;
+int c = 20;
+System.out.println("Logical AND: " + (a > b && b < c)); // Output: true
+System.out.println("Logical OR: " + (a < b || b > c)); // Output: false
+```
+
+#### Ternary Operator
+
+Ternary operator (`?:`) is a shorthand for if-else statement.
+
+```java
+int a = 10;
+int b = 20;
+int max = (a > b) ? a : b;
+System.out.println("Maximum value: " + max); // Output: 20
+```
+
+#### Assignment Operator
+
+Assignment operators are used to assign values to variables. Examples include `=`, `+=`, `-=`, `*=`, `/=`, and `%=`.
+
+```java
+int x = 10;
+x += 5; // Equivalent to x = x + 5;
+System.out.println("Updated value of x: " + x); // Output: 15
+```
+
+#### Java Operator Precedence
+
+Operator precedence determines the order of evaluation of operators. Here's the precedence order from highest to lowest:
+
+| Category                      | Operators                                                      |
+|-------------------------------|----------------------------------------------------------------|
+| Postfix                      | `expr++`, `expr--`                                             |
+| Unary                       | `++expr`, `--expr`, `+expr`, `-expr`, `~`, `!`                |
+| Multiplicative               | `*`, `/`, `%`                                                  |
+| Additive                     | `+`, `-`                                                       |
+| Shift                        | `<<`, `>>`, `>>>`                                              |
+| Relational                   | `<`, `<=`, `>`, `>=`, `instanceof`                             |
+| Equality                     | `==`, `!=`                                                     |
+| Bitwise AND                  | `&`                                                            |
+| Bitwise XOR                  | `^`                                                            |
+| Bitwise OR                   | `|`                                                            |
+| Logical AND                  | `&&`                                                           |
+| Logical OR                   | `||`                                                           |
+| Ternary                      | `? :`                                                          |
+| Assignment                   | `=`, `+=`, `-=` and so on                                       |
+
+Operators in higher precedence levels are evaluated before operators in lower precedence levels. For example, `*` has higher precedence than `+`, so `2 + 3 * 4` is interpreted as `2 + (3 * 4)`, resulting in `14`.
+
+
+#### Operator Shifting
+
+Operator shifting is not a standard term in Java. If you meant to ask about shifting operators (`<<`, `>>`, `>>>`), they are used to shift the bits of a number left or right.
+
+For example:
+```java
+int num = 8; // Binary: 0000 1000
+System.out.println("Left shift: " + (num << 1)); // Output: 16 (Binary: 0001 0000)
+System.out.println("Right shift: " + (num >> 1)); // Output: 4 (Binary: 0000 0100)
+```
+
+Here are some complex examples demonstrating the use of various operators and their precedence in Java:
+
+### Example 1: Complex Arithmetic Expression
+```java
+public class ComplexExample1 {
+    public static void main(String[] args) {
+        int a = 10;
+        int b = 5;
+        int c = 2;
+        int result = a * b + c / (a - b);
+        System.out.println("Result: " + result); // Output: Result: -8
+    }
+}
+```
+Explanation: The expression `a * b + c / (a - b)` is evaluated as `(a * b) + (c / (a - b))`, where multiplication has higher precedence than addition and division has higher precedence than subtraction.
+
+### Example 2: Bitwise Operations
+```java
+public class ComplexExample2 {
+    public static void main(String[] args) {
+        int a = 5;
+        int b = 3;
+        int result1 = a & b | a << 1;
+        int result2 = a ^ b & b;
+        System.out.println("Result 1: " + result1); // Output: Result 1: 11
+        System.out.println("Result 2: " + result2); // Output: Result 2: 6
+    }
+}
+```
+Explanation: `&` has higher precedence than `|` and `<<`, and `^` has higher precedence than `&`.
+
+### Example 3: Ternary Operator
+```java
+public class ComplexExample3 {
+    public static void main(String[] args) {
+        int x = 10;
+        int y = 5;
+        int max = (x > y) ? x : (y > 0) ? y : 0;
+        System.out.println("Max: " + max); // Output: Max: 10
+    }
+}
+```
+Explanation: The ternary operator `? :` has lower precedence than arithmetic and relational operators. The expression is evaluated as `(x > y) ? x : ((y > 0) ? y : 0)`.
+
+### Example 4: Logical Operators
+```java
+public class ComplexExample4 {
+    public static void main(String[] args) {
+        boolean a = true;
+        boolean b = false;
+        boolean c = true;
+        boolean result = a || b && c;
+        System.out.println("Result: " + result); // Output: Result: true
+    }
+}
+```
+Explanation: `&&` has higher precedence than `||`, so `b && c` is evaluated first, resulting in `false`. Then, `a || false` is evaluated, resulting in `true`.
+Here's an example of each Java control statement in a separate file with a `main` method and a brief definition:
+
+1. **Java If-else**:
+   - File: `IfElseExample.java`
+   ```java
+   public class IfElseExample {
+       public static void main(String[] args) {
+           int number = 10;
+           if (number % 2 == 0) {
+               System.out.println("Even number");
+           } else {
+               System.out.println("Odd number");
+           }
+       }
+   }
+   ```
+   - Definition: Used to test a condition and execute different code blocks based on the result.
+
+2. **Java Switch**:
+   - File: `SwitchExample.java`
+   ```java
+   public class SwitchExample {
+       public static void main(String[] args) {
+           int day = 3;
+           String dayName;
+
+           switch (day) {
+               case 1:
+                   dayName = "Sunday";
+                   break;
+               case 2:
+                   dayName = "Monday";
+                   break;
+               case 3:
+                   dayName = "Tuesday";
+                   break;
+               default:
+                   dayName = "Invalid day";
+           }
+
+           System.out.println("Day: " + dayName);
+       }
+   }
+   ```
+   - Definition: Used to execute one block of code from multiple alternatives based on a given expression.
+
+3. **Java For Loop**:
+   - File: `ForLoopExample.java`
+   ```java
+   public class ForLoopExample {
+       public static void main(String[] args) {
+           for (int i = 0; i < 5; i++) {
+               System.out.println("i: " + i);
+           }
+       }
+   }
+   ```
+   - Definition: Used to iterate a set of statements repeatedly for a specified number of times.
+
+4. **foreach**:
+   - File: `ForEachExample.java`
+   ```java
+   public class ForEachExample {
+       public static void main(String[] args) {
+           int[] numbers = {1, 2, 3, 4, 5};
+           for (int number : numbers) {
+               System.out.println("Number: " + number);
+           }
+       }
+   }
+   ```
+   - Definition: Used to iterate over elements of an array or collection.
+
+5. **Java While Loop**:
+   - File: `WhileLoopExample.java`
+   ```java
+   public class WhileLoopExample {
+       public static void main(String[] args) {
+           int i = 0;
+           while (i < 5) {
+               System.out.println("i: " + i);
+               i++;
+           }
+       }
+   }
+   ```
+   - Definition: Used to execute a block of statements repeatedly as long as a given condition is true.
+
+6. **Java Do While Loop**:
+   - File: `DoWhileLoopExample.java`
+   ```java
+   public class DoWhileLoopExample {
+       public static void main(String[] args) {
+           int i = 0;
+           do {
+               System.out.println("i: " + i);
+               i++;
+           } while (i < 5);
+       }
+   }
+   ```
+   - Definition: Similar to the while loop, but the block of statements is executed once before the condition is checked.
+
+7. **Java Break**:
+   - File: `BreakExample.java`
+   ```java
+   public class BreakExample {
+       public static void main(String[] args) {
+           for (int i = 0; i < 5; i++) {
+               if (i == 3) {
+                   break;
+               }
+               System.out.println("i: " + i);
+           }
+       }
+   }
+   ```
+   - Definition: Used to terminate a loop or switch statement and transfer control to the statement immediately following the loop or switch.
+
+8. **Java Continue**:
+   - File: `ContinueExample.java`
+   ```java
+   public class ContinueExample {
+       public static void main(String[] args) {
+           for (int i = 0; i < 5; i++) {
+               if (i == 3) {
+                   continue;
+               }
+               System.out.println("i: " + i);
+           }
+       }
+   }
+   ```
+   - Definition: Used to skip the current iteration of a loop and continue with the next iteration.
+
+9. **Java Comments**:
+   - File: `CommentsExample.java`
+   ```java
+   public class CommentsExample {
+       public static void main(String[] args) {
+           // This is a single-line comment
+           System.out.println("Hello, Java!"); // This is also a single-line comment
+
+           /*
+           This is a
+           multi-line comment
+           */
+       }
+   }
+   ```
+   - Definition: Used to document code and make it more readable, without affecting the program's execution.
+
+### `continue` vs `break`
+
+In Java, `continue` and `break` are both control flow statements used in loops, but they serve different purposes:
+
+1. **`break` statement**:
+   - When a `break` statement is encountered inside a loop, the loop is immediately terminated, and the program control resumes at the next statement following the loop.
+   - It is often used to exit a loop early, based on some condition, without completing all the iterations of the loop.
+   - Example:
+     ```java
+     for (int i = 0; i < 5; i++) {
+         if (i == 3) {
+             break; // exit the loop when i is 3
+         }
+         System.out.println("i: " + i);
+     }
+     ```
+     Output:
+     ```
+     i: 0
+     i: 1
+     i: 2
+     ```
+
+2. **`continue` statement**:
+   - When a `continue` statement is encountered inside a loop, the current iteration of the loop is terminated, and the program control jumps to the beginning of the next iteration.
+   - It is used to skip the remaining code in the current iteration and proceed to the next iteration of the loop.
+   - Example:
+     ```java
+     for (int i = 0; i < 5; i++) {
+         if (i == 2) {
+             continue; // skip printing when i is 2
+         }
+         System.out.println("i: " + i);
+     }
+     ```
+     Output:
+     ```
+     i: 0
+     i: 1
+     i: 3
+     i: 4
+     ```
+Certainly! Here are four more examples demonstrating the use of `break` and `continue` in different scenarios:
+
+1. **Using `break` to exit nested loops**:
+   ```java
+   outerloop:
+   for (int i = 0; i < 3; i++) {
+       for (int j = 0; j < 3; j++) {
+           if (i == 1 && j == 1) {
+               break outerloop; // exit both loops
+           }
+           System.out.println("i: " + i + ", j: " + j);
+       }
+   }
+   ```
+   Output:
+   ```
+   i: 0, j: 0
+   i: 0, j: 1
+   i: 0, j: 2
+   ```
+
+2. **Using `continue` to skip odd numbers**:
+   ```java
+   for (int i = 0; i < 5; i++) {
+       if (i % 2 != 0) {
+           continue; // skip odd numbers
+       }
+       System.out.println("Even number: " + i);
+   }
+   ```
+   Output:
+   ```
+   Even number: 0
+   Even number: 2
+   Even number: 4
+   ```
+
+3. **Using `break` in a `while` loop**:
+   ```java
+   int i = 0;
+   while (i < 5) {
+       if (i == 3) {
+           break; // exit the loop when i is 3
+       }
+       System.out.println("i: " + i);
+       i++;
+   }
+   ```
+   Output:
+   ```
+   i: 0
+   i: 1
+   i: 2
+   ```
+
+4. **Using `continue` in a `do-while` loop**:
+   ```java
+   int i = 0;
+   do {
+       if (i == 2) {
+           i++;
+           continue; // skip printing when i is 2
+       }
+       System.out.println("i: " + i);
+       i++;
+   } while (i < 5);
+   ```
+   Output:
+   ```
+   i: 0
+   i: 1
+   i: 3
+   i: 4
+   ```
+In summary, `break` is used to exit a loop prematurely, while `continue` is used to skip the rest of the current iteration and move to the next iteration of the loop.
+
+### `do` vs `while`
+`do-while` and `while` loops are both used for iteration in Java, but they differ in when their condition is evaluated:
+
+1. **`while` loop**:
+   - The `while` loop evaluates the condition at the beginning of the loop. If the condition is `true`, the loop body is executed. If the condition is `false` initially, the body is not executed at all.
+   - Syntax:
+     ```java
+     while (condition) {
+         // loop body
+     }
+     ```
+   - Example:
+     ```java
+     int i = 0;
+     while (i < 5) {
+         System.out.println("i: " + i);
+         i++;
+     }
+     ```
+     Output:
+     ```
+     i: 0
+     i: 1
+     i: 2
+     i: 3
+     i: 4
+     ```
+
+2. **`do-while` loop**:
+   - The `do-while` loop evaluates the condition at the end of the loop. This means that the loop body is executed at least once, even if the condition is `false` initially.
+   - Syntax:
+     ```java
+     do {
+         // loop body
+     } while (condition);
+     ```
+   - Example:
+     ```java
+     int i = 0;
+     do {
+         System.out.println("i: " + i);
+         i++;
+     } while (i < 5);
+     ```
+     Output:
+     ```
+     i: 0
+     i: 1
+     i: 2
+     i: 3
+     i: 4
+     ```
+
+In summary, use a `while` loop when you want to loop based on a condition that might be false from the start, and use a `do-while` loop when you want to ensure that the loop body is executed at least once before checking the condition.
+
+Here are four more examples demonstrating the use of `while` and `do-while` loops in different scenarios:
+
+1. **Using `while` loop to find the factorial of a number**:
+   ```java
+   int number = 5;
+   int factorial = 1;
+   int i = 1;
+   while (i <= number) {
+       factorial *= i;
+       i++;
+   }
+   System.out.println("Factorial of " + number + " is: " + factorial);
+   ```
+   Output:
+   ```
+   Factorial of 5 is: 120
+   ```
+
+2. **Using `do-while` loop to validate user input**:
+   ```java
+   Scanner scanner = new Scanner(System.in);
+   int userInput;
+   do {
+       System.out.println("Enter a number between 1 and 10: ");
+       userInput = scanner.nextInt();
+   } while (userInput < 1 || userInput > 10);
+   System.out.println("Valid input: " + userInput);
+   ```
+   This will repeatedly ask the user for input until they enter a number between 1 and 10.
+
+3. **Using `while` loop to print a pattern**:
+   ```java
+   int rows = 5;
+   int i = 1;
+   while (i <= rows) {
+       int j = 1;
+       while (j <= i) {
+           System.out.print("* ");
+           j++;
+       }
+       System.out.println();
+       i++;
+   }
+   ```
+   Output:
+   ```
+   *
+   * *
+   * * *
+   * * * *
+   * * * * *
+   ```
+
+4. **Using `do-while` loop to calculate the sum of numbers entered by the user**:
+   ```java
+   Scanner scanner = new Scanner(System.in);
+   int sum = 0;
+   int number;
+   do {
+       System.out.println("Enter a number (enter 0 to exit): ");
+       number = scanner.nextInt();
+       sum += number;
+   } while (number != 0);
+   System.out.println("Sum of the numbers: " + sum);
+   ```
+   This will keep adding numbers entered by the user until they enter 0, then it will print the sum.
+
 ### Java OOPs Concepts
 
 Object-Oriented Programming is a methodology or paradigm to design a program using classes and objects. It simplifies software development and maintenance by providing some concepts:
