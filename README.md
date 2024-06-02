@@ -4711,3 +4711,78 @@ public class Utility {
 ```
 
 In this example, the `Utility` class combines methods for reading from a file, writing to a file, reversing a string, adding numbers, and drawing shapes. These functionalities are unrelated and should ideally be separated into different classes to improve cohesion.
+
+
+### Association
+
+In object-oriented programming, association represents a relationship between two classes where one class is related to another class in some way. Here's an example of association in Java:
+
+```java
+import java.util.*;
+
+class Department {
+    private String name;
+    private List<Employee> employees;
+
+    public Department(String name) {
+        this.name = name;
+        this.employees = new ArrayList<>();
+    }
+
+    public void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+class Employee {
+    private String name;
+    private Department department;
+
+    public Employee(String name, Department department) {
+        this.name = name;
+        this.department = department;
+        department.addEmployee(this);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+}
+
+public class AssociationExample {
+    public static void main(String[] args) {
+        Department hr = new Department("Human Resources");
+        Employee john = new Employee("John Doe", hr);
+        Employee jane = new Employee("Jane Smith", hr);
+
+        System.out.println("Department: " + hr.getName());
+        System.out.println("Employees:");
+        for (Employee employee : hr.getEmployees()) {
+            System.out.println("- " + employee.getName());
+        }
+
+        System.out.println("\nEmployee: " + john.getName());
+        System.out.println("Works in Department: " + john.getDepartment().getName());
+    }
+}
+```
+
+In this example, the `Employee` class is associated with the `Department` class through a unidirectional association. Each `Employee` belongs to a single `Department`, and each `Department` can have multiple `Employee`s. The `Employee` class holds a reference to its `Department`, allowing us to navigate the association from `Employee` to `Department`.
+
+### Coupling
+### Cohesion
+### Association
+### Aggregation
+### Composition
