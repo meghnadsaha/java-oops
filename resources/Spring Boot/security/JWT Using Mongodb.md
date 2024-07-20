@@ -6,102 +6,149 @@ Here’s a high-level view of the project structure:
 
 ```
 spring-boot-login-mongodb/
-└── src/
-    └── main/
-        └── java/
-            └── com/
-                └── bezkoder/
-                    └── spring/
-                        └── security/
-                            └── mongodb/
-                                │   
-                                ├── controller/
-                                │   ├── AuthController.java
-                                │   └── TestController.java
-                                ├── models/
-                                │   ├── ERole.java
-                                │   ├── Role.java
-                                │   └── User.java
-                                ├── payload/
-                                │     ├── request/
-                                │     ├── LoginRequest.java
-                                │     └── SignupRequest.java
-                                ├── payload/
-                                │     ├── response/
-                                │     ├── MessageResponse.java
-                                │     └── UserInfoResponse.java
-                                ├── repository/
-                                │   ├── UserRepository.java
-                                │   └── RoleRepository.java
-                                ├── security/
-                                │     ├── services/
-                                │     ├── UserDetailsImpl.java
-                                │     └── UserDetailsServiceImpl.java
-                                ├── security/
-                                │     ├── jwt/
-                                │     ├── AuthEntryPointJwt.java
-                                │     ├── AuthTokenFilter.java
-                                │     └── JwtUtils.java
-                                ├── security/
-                                │     └── WebSecurityConfig.java
-                                │ 
-                                └── SpringBootMongodbLoginApplication.java
+├── src/
+│   └── main/
+│       └── java/
+│           └── com/
+│               └── bezkoder/
+│                   └── spring/
+│                       └── security/
+│                           └── mongodb/
+│                               ├── controller/
+│                               │   ├── AuthController.java
+│                               │   └── TestController.java
+│                               ├── models/
+│                               │   ├── ERole.java
+│                               │   ├── Role.java
+│                               │   └── User.java
+│                               ├── payload/
+│                               │   ├── request/
+│                               │   │   ├── LoginRequest.java
+│                               │   │   └── SignupRequest.java
+│                               │   └── response/
+│                               │       ├── MessageResponse.java
+│                               │       └── UserInfoResponse.java
+│                               ├── repository/
+│                               │   ├── UserRepository.java
+│                               │   └── RoleRepository.java
+│                               ├── security/
+│                               │   ├── services/
+│                               │   │   ├── UserDetailsImpl.java
+│                               │   │   └── UserDetailsServiceImpl.java
+│                               │   └── jwt/
+│                               │       ├── AuthEntryPointJwt.java
+│                               │       ├── AuthTokenFilter.java
+│                               │       └── JwtUtils.java
+│                               │   └── WebSecurityConfig.java
+│                               └── SpringBootMongodbLoginApplication.java
+├── pom.xml
+└── src/main/resources/
+    └── application.yml
+
 ```
 
 ### Code Documentation
 
-#### `WebSecurityConfig.java`
+#### `pom.xml`
 Configures security settings, including JWT authentication and authorization.
 
-```java
-package com.bezkoder.spring.security.mongodb.config;
+```java<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.bezkoder</groupId>
+	<artifactId>spring-boot-mongodb-login</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-mongodb-login</name>
+	<description>Spring Boot and MongoDB: Login example with Spring Security, JWT - Rest API</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt-api</artifactId>
+      <version>0.11.5</version>
+    </dependency>
 
-import com.bezkoder.spring.security.mongodb.security.JwtAuthFilter;
-import com.bezkoder.spring.security.mongodb.security.UserDetailsServiceImpl;
-import com.bezkoder.spring.security.mongodb.security.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt-impl</artifactId>
+      <version>0.11.5</version>
+      <scope>runtime</scope>
+    </dependency>
 
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    <dependency>
+      <groupId>io.jsonwebtoken</groupId>
+      <artifactId>jjwt-jackson</artifactId>
+      <version>0.11.5</version>
+      <scope>runtime</scope>
+    </dependency>
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    @Autowired
-    private JwtUtils jwtUtils;
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
-    @Bean
-    public JwtAuthFilter jwtAuthFilter() {
-        return new JwtAuthFilter(jwtUtils);
-    }
+</project>
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-            .authorizeRequests()
-            .antMatchers("/api/auth/**").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .exceptionHandling().authenticationEntryPoint(new JwtAuthEntryPoint())
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+```
+#### `application.yml`
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-    }
-}
+```javabezkoder:
+  app:
+    jwtCookieName: bezkoder
+    jwtExpirationMs: 86400000
+    jwtSecret: ======================BezKoder=Spring===========================
+spring:
+  data:
+    mongodb:
+      database: test
+      host: localhost
+      port: 27017
 ```
 
 #### `JwtAuthEntryPoint.java`
