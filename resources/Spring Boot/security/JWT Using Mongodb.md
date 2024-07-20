@@ -1,3 +1,5 @@
+## Spring Boot Login and Registration example with MongoDB
+
 To create comprehensive code documentation for the project in the given GitHub repository, I'll outline the project structure and include relevant code snippets from the repository. This will help provide a clear understanding of how the code is organized and what each part does.
 
 ### Project Structure
