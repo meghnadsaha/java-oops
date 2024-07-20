@@ -14,9 +14,7 @@ spring-boot-login-mongodb/
                     └── spring/
                         └── security/
                             └── mongodb/
-                                ├── config/
-                                │   ├── WebSecurityConfig.java
-                                │   └── JwtAuthEntryPoint.java
+                                │   
                                 ├── controller/
                                 │   ├── AuthController.java
                                 │   └── TestController.java
