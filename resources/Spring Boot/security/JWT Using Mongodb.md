@@ -19,20 +19,27 @@ spring-boot-login-mongodb/
                                 │   └── JwtAuthEntryPoint.java
                                 ├── controller/
                                 │   ├── AuthController.java
-                                │   └── UserController.java
-                                ├── model/
-                                │   ├── User.java
+                                │   └── TestController.java
+                                ├── models/
+                                │   ├── ERole.java
                                 │   ├── Role.java
-                                │   └── JwtResponse.java
+                                │   └── User.java
                                 ├── repository/
                                 │   ├── UserRepository.java
                                 │   └── RoleRepository.java
                                 ├── security/
-                                │   ├── JwtAuthFilter.java
-                                │   ├── JwtUtils.java
-                                │   ├── UserDetailsImpl.java
-                                │   └── UserDetailsServiceImpl.java
-                                └── SpringBootLoginMongodbApplication.java
+                                │     ├── services/
+                                │     ├── UserDetailsImpl.java
+                                │     └── UserDetailsServiceImpl.java
+                                ├── security/
+                                │     ├── jwt/
+                                │     ├── AuthEntryPointJwt.java
+                                │     ├── AuthTokenFilter.java
+                                │     └── JwtUtils.java
+                                ├── security/
+                                │     └── WebSecurityConfig.java
+                                │ 
+                                └── SpringBootMongodbLoginApplication.java
 ```
 
 ### Code Documentation
