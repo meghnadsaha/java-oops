@@ -22,6 +22,14 @@ spring-boot-login-mongodb/
                                 │   ├── ERole.java
                                 │   ├── Role.java
                                 │   └── User.java
+                                ├── payload/
+                                │     ├── request/
+                                │     ├── LoginRequest.java
+                                │     └── SignupRequest.java
+                                ├── payload/
+                                │     ├── response/
+                                │     ├── MessageResponse.java
+                                │     └── UserInfoResponse.java
                                 ├── repository/
                                 │   ├── UserRepository.java
                                 │   └── RoleRepository.java
