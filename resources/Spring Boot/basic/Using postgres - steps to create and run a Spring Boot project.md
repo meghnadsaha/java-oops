@@ -224,17 +224,28 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Long id, Employee employeeDetails) {
-        Employee employee = employeeRepository.findById(id).orElse(null);
-        if (employee != null) {
-            employee.setName(employeeDetails.getName());
-            employee.setAddress(employeeDetails.getAddress());
-            employee.setAge(employeeDetails.getAge());
-            employee.setDepartment(employeeDetails.getDepartment());
-            employee.setStatus(employeeDetails.getStatus());
-            return employeeRepository.save(employee);
+  public Employee updateEmployee ( Long employeeId , Employee employeeDetail ) {
+
+        if (employeeId == null) {
+            throw new IllegalArgumentException("Employee ID must not be null");
         }
-        return null;
+
+        if (employeeDetail == null) {
+            throw new IllegalArgumentException("Employee details must not be null");
+        }
+
+        Employee employee = getEmployeeById(employeeId);
+        if (employee == null) {
+            throw new EntityNotFoundException("Employee not found with ID: " + employeeId);
+        }
+
+        employee.setAge(employeeDetail.getAge());
+        employee.setName(employeeDetail.getName());
+        employee.setAddress(employeeDetail.getAddress());
+        employee.setDepartment(employeeDetail.getDepartment());
+        employee.setStatus(employeeDetail.getStatus());
+
+        return employeeRepository.save(employee);
     }
 
     public void deleteEmployee(Long id) {
