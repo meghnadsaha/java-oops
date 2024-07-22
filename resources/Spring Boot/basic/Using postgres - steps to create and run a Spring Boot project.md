@@ -116,6 +116,30 @@ server:
   port: 8081
 ```
 
+
+### 3.1. Build and Run the Spring Boot Application
+Navigate to the project directory and run the application using Maven.
+
+#### Skip Tests and Run
+To skip tests during the build and run the application:
+
+```bash
+mvn clean install -DskipTests
+mvn spring-boot:run
+```
+
+#### Direct Run without Installing
+Alternatively, you can directly run the Spring Boot application without installing it to the local repository:
+
+```bash
+mvn spring-boot:run -DskipTests
+```
+
+This command compiles the application and starts it, skipping the test phase.
+
+
+
+
 ### Step 4: Create Employee Entity
 
 Create an `Employee` entity in `src/main/java/com/example/demo/model/Employee.java`:
