@@ -251,7 +251,33 @@ import org.springframework.stereotype.Repository;
 public interface ClubRepository extends JpaRepository<Club, Long> {
 }
 ```
+### Step 4.1: Create CommonUtil
+1. **CommonUtil** (`com.example.employeeservice.util`):
+```java
+package com.example.employeeservice.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CommonUtil {
+
+    // Method to convert an object to a JSON string and print it
+    public static void printJson(String msg,Object object) {
+        // Create a Gson instance with pretty printing enabled
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        // Convert the object to a JSON string
+        String jsonString = gson.toJson(object);
+
+        // Print the JSON string
+        System.out.println(msg+" : "+jsonString);
+    }
+
+}
+
+```
 ### Step 5: Create Services
 
 1. **StudentService** (`src/main/java/com/example/demo/service/StudentService.java`):
