@@ -10,8 +10,9 @@
 
 You can create a Spring Boot project using Spring Initializr or manually create a Maven project. Below are the steps to set it up manually:
 
-1. **Create a new Maven project**. https://github.com/meghnadsaha/java-oops/blob/master/resources/Spring%20Boot/basic/Spring%20Initializr.md
-2. **Add the necessary dependencies** to the `pom.xml`.
+1. **Create a new Maven project**.
+    - Open your browser and go to [Spring Initializr](https://github.com/meghnadsaha/java-oops/blob/master/resources/Spring%20Boot/basic/Spring%20Initializr.md)
+3. **Add the necessary dependencies** to the `pom.xml`.
 
 ```xml
 <dependencies>
