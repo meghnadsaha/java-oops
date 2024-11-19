@@ -1,10 +1,18 @@
+## Spring Boot DB Mapping Using postgres :- 
+
+
+
+
+
+
 ### Step 1: Create a Spring Boot Project - Postgres With DB Mapping (@OneToMany,@ManyToMany,@ManyToOne)
 )
 
 You can create a Spring Boot project using Spring Initializr or manually create a Maven project. Below are the steps to set it up manually:
 
 1. **Create a new Maven project**.
-2. **Add the necessary dependencies** to the `pom.xml`.
+    - Open your browser and go to [Spring Initializr](https://github.com/meghnadsaha/java-oops/blob/master/resources/Spring%20Boot/basic/Spring%20Initializr.md)
+3. **Add the necessary dependencies** to the `pom.xml`.
 
 ```xml
 <dependencies>
@@ -72,6 +80,11 @@ You can create a Spring Boot project using Spring Initializr or manually create 
         <groupId>org.springframework</groupId>
         <artifactId>spring-messaging</artifactId>
     </dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
 </dependencies>
 ```
 
@@ -103,16 +116,20 @@ server:
 1. **Student Entity** (`src/main/java/com/example/demo/model/Student.java`):
 
 ```java
-package com.example.demo.model;
+package com.example.employeeservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import lombok.ToString;
+
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "students")
+@ToString
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,30 +138,38 @@ public class Student {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Course> courses;
-
-    @ManyToMany
+    @ManyToMany//(fetch = FetchType.EAGER)
     @JoinTable(
-      name = "student_club",
-      joinColumns = @JoinColumn(name = "student_id"),
-      inverseJoinColumns = @JoinColumn(name = "club_id"))
+            name = "student_club",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "club_id"))
     private List<Club> clubs;
+
+    @ManyToOne//(fetch = FetchType.EAGER)
+    @JoinColumn(name = "course_id")
+//    @JsonIgnore  // Add this to avoid cyclic serialization
+    private Course course;
+
+
 }
+
 ```
 
 2. **Course Entity** (`src/main/java/com/example/demo/model/Course.java`):
 
 ```java
-package com.example.demo.model;
+package com.example.employeeservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
-@Data
+import java.util.List;
+
 @Entity
-@Table(name = "courses")
+@Data
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,25 +178,27 @@ public class Course {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private Student student;
+//    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // Consider using FetchType.EAGER if needed
+    @OneToMany(mappedBy = "course")
+    @JsonIgnore // Avoid cyclic references in JSON serialization
+    private List<Student> students;
 }
+
 ```
 
 3. **Club Entity** (`src/main/java/com/example/demo/model/Club.java`):
 
 ```java
-package com.example.demo.model;
+package com.example.employeeservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.List;
 
+import java.util.List;
 @Data
 @Entity
-@Table(name = "clubs")
 public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -181,8 +208,12 @@ public class Club {
     private String name;
 
     @ManyToMany(mappedBy = "clubs")
+    @JsonIgnore  // Add this to avoid cyclic serialization
     private List<Student> students;
+
+
 }
+
 ```
 
 ### Step 4: Create Repositories
@@ -228,62 +259,140 @@ import org.springframework.stereotype.Repository;
 public interface ClubRepository extends JpaRepository<Club, Long> {
 }
 ```
+### Step 4.1: Create CommonUtil
+1. **CommonUtil** (`com.example.employeeservice.util`):
+```java
+package com.example.employeeservice.util;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Component;
+
+@Component
+public class CommonUtil {
+
+    // Method to convert an object to a JSON string and print it
+    public static void printJson(String msg,Object object) {
+        // Create a Gson instance with pretty printing enabled
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        // Convert the object to a JSON string
+        String jsonString = gson.toJson(object);
+
+        // Print the JSON string
+        System.out.println(msg+" : "+jsonString);
+    }
+
+}
+
+```
 ### Step 5: Create Services
 
 1. **StudentService** (`src/main/java/com/example/demo/service/StudentService.java`):
 
 ```java
-package com.example.demo.service;
+package com.example.employeeservice.Service;
 
-import com.example.demo.model.Student;
-import com.example.demo.repository.StudentRepository;
+import com.example.employeeservice.Repository.StudentRepository;
+import com.example.employeeservice.model.Club;
+import com.example.employeeservice.model.Course;
+import com.example.employeeservice.model.Student;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public List<Student> getAllStudents() {
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private ClubService clubService;
+
+    public List<Student> getAllStudents () {
         return studentRepository.findAll();
     }
 
-    public Student getStudentById(Long id) {
-        return studentRepository.findById(id).orElse(null);
+    public Student getStudentById ( Long id ) {
+        return studentRepository.findById(id)
+                                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
     }
 
-    public Student createStudent(Student student) {
+    public Student createStudent ( Student student ) {
+
+        Course course = courseService.getCourseById(student.getCourse().getId());
+        student.setCourse(course);
+
+        // Fetch clubs by their IDs
+//        List<Long> list = new ArrayList<>();
+//        for (Club club : student.getClubs()) {
+//            Long id = club.getId();
+//            list.add(id);
+//        }
+//        List<Club> clubs = clubService.getAllClubsByStudentId(
+//                list
+//        );
+        List<Club> clubs = clubService.getAllClubsByStudentId(
+                student.getClubs().stream().map(Club::getId).collect(Collectors.toList())
+        );
+        student.setClubs(clubs);
+
         return studentRepository.save(student);
     }
 
-    public Student updateStudent(Long id, Student studentDetails) {
-        Student student = studentRepository.findById(id).orElse(null);
-        if (student != null) {
-            student.setName(studentDetails.getName());
-            student.setCourses(studentDetails.getCourses());
-            student.setClubs(studentDetails.getClubs());
-            return studentRepository.save(student);
-        }
-        return null;
+
+    @Transactional
+    public Student updateStudent ( Long id , Student studentUpdate ) {
+        // Fetch existing student
+        Student existingStudent = getStudentById(id);
+        // Update student details
+        existingStudent.setName(studentUpdate.getName());
+
+        // Fetch and update course
+        Course course = courseService.getCourseById(studentUpdate.getCourse().getId());
+        existingStudent.setCourse(course);
+
+        // Fetch and update clubs
+        List<Club> clubs = clubService.getAllClubsByStudentId(
+                studentUpdate.getClubs().stream().map(Club::getId).collect(Collectors.toList()));
+        existingStudent.setClubs(clubs);
+        // Fetch and update clubs
+//        List<Long> list = new ArrayList<>();
+//        for (Club club : studentUpdate.getClubs()) {
+//            Long clubId = club.getId();
+//            list.add(clubId);
+//        }
+//        List<Club> clubs = clubRepository.findAllById(
+//                list
+//        );
+
+        return studentRepository.save(existingStudent);
     }
 
-    public void deleteStudent(Long id) {
+
+    public void deleteStudent ( Long id ) {
         studentRepository.deleteById(id);
     }
 }
+
 ```
 
 2. **CourseService** (`src/main/java/com/example/demo/service/CourseService.java`):
 
 ```java
-package com.example.demo.service;
+package com.example.employeeservice.Service;
 
-import com.example.demo.model.Course;
-import com.example.demo.repository.CourseRepository;
+import com.example.employeeservice.Repository.CourseRepository;
+import com.example.employeeservice.model.Course;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -294,64 +403,89 @@ public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
 
-    public List<Course> getAllCourses() {
+    public List<Course> getAllCourses () {
         return courseRepository.findAll();
     }
 
-    public Course getCourseById(Long id) {
-        return courseRepository.findById(id).orElse(null);
+    public Course getCourseById ( Long id ) {
+        return courseRepository.findById(id)
+                               .orElseThrow(() -> new EntityNotFoundException("Course not found"));
     }
 
-    public Course createCourse(Course course) {
+    public Course createCourse ( Course course ) {
         return courseRepository.save(course);
     }
 
-    public Course updateCourse(Long id, Course courseDetails) {
+    public Course updateCourse ( Long id , Course courseDetails ) {
         Course course = courseRepository.findById(id).orElse(null);
         if (course != null) {
             course.setTitle(courseDetails.getTitle());
-            course.setStudent(courseDetails.getStudent());
+//            course.setStudent(courseDetails.getStudent());
             return courseRepository.save(course);
         }
         return null;
     }
 
-    public void deleteCourse(Long id) {
+    public void deleteCourse ( Long id ) {
         courseRepository.deleteById(id);
     }
+
+
 }
+
 ```
 
 3. **ClubService** (`src/main/java/com/example/demo/service/ClubService.java`):
 
 ```java
-package com.example.demo.service;
+package com.example.employeeservice.Service;
 
-import com.example.demo.model.Club;
-import com.example.demo.repository.ClubRepository;
+import com.example.employeeservice.Repository.ClubRepository;
+import com.example.employeeservice.model.Club;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClubService {
     @Autowired
     private ClubRepository clubRepository;
 
-    public List<Club> getAllClubs() {
+    public List<Club> getAllClubs () {
+
         return clubRepository.findAll();
     }
 
-    public Club getClubById(Long id) {
-        return clubRepository.findById(id).orElse(null);
+    public Club getClubById ( Long id ) {
+
+        return clubRepository.findById(id)
+                             .orElseThrow(() -> new EntityNotFoundException("No clubs found for the provided IDs"));
+
     }
 
-    public Club createClub(Club club) {
+    public List<Club> getAllClubsByStudentId ( List<Long> list ) {
+
+        List<Club> clubs = clubRepository.findAllById(list).stream()
+                                         .filter(club -> club != null) // Ensure no null clubs
+                                         .collect(Collectors.toList());
+
+        // Check if the result is empty and throw an exception if necessary
+        if (clubs.isEmpty()) {
+            throw new EntityNotFoundException("No clubs found for the provided IDs");
+        }
+
+        return clubs;
+
+    }
+
+    public Club createClub ( Club club ) {
         return clubRepository.save(club);
     }
 
-    public Club updateClub(Long id, Club clubDetails) {
+    public Club updateClub ( Long id , Club clubDetails ) {
         Club club = clubRepository.findById(id).orElse(null);
         if (club != null) {
             club.setName(clubDetails.getName());
@@ -361,12 +495,11 @@ public class ClubService {
         return null;
     }
 
-    public void deleteClub(Long id) {
-        clubRepository
-
-.deleteById(id);
+    public void deleteClub ( Long id ) {
+        clubRepository.deleteById(id);
     }
 }
+
 ```
 
 ### Step 6: Create Controllers
@@ -374,16 +507,25 @@ public class ClubService {
 1. **StudentController** (`src/main/java/com/example/demo/controller/StudentController.java`):
 
 ```java
-package com.example.demo.controller;
+package com.example.employeeservice.controller;
 
-import com.example.demo.model.Student;
-import com.example.demo.service.StudentService;
+import com.example.employeeservice.Repository.ClubRepository;
+import com.example.employeeservice.Repository.CourseRepository;
+import com.example.employeeservice.Service.ClubService;
+import com.example.employeeservice.Service.CourseService;
+import com.example.employeeservice.Service.StudentService;
+import com.example.employeeservice.model.Club;
+import com.example.employeeservice.model.Course;
+import com.example.employeeservice.model.Student;
+import com.example.employeeservice.util.CommonUtil;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/students")
@@ -392,58 +534,72 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private CommonUtil commonUtil;
+
+
     @GetMapping
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudents () {
         return studentService.getAllStudents();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Student> getStudentById ( @PathVariable(value = "id") Long id ) {
         Student student = studentService.getStudentById(id);
-        return student != null ? ResponseEntity.ok().body(student) : ResponseEntity.notFound().build();
+        return student != null?ResponseEntity.ok().body(student):ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public Student createStudent(@Valid @RequestBody Student student) {
+    public Student createStudent ( @Valid @RequestBody Student student ) {
+        commonUtil.printJson("Student object : ",student);
         return studentService.createStudent(student);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable(value = "id") Long id,
                                                  @Valid @RequestBody Student studentDetails) {
+        commonUtil.printJson("Student Details object : ",studentDetails);
         Student updatedStudent = studentService.updateStudent(id, studentDetails);
         return updatedStudent != null ? ResponseEntity.ok().body(updatedStudent) : ResponseEntity.notFound().build();
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> deleteStudent ( @PathVariable(value = "id") Long id ) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 }
+
 ```
 
 2. **CourseController** (`src/main/java/com/example/demo/controller/CourseController.java`):
 
-```java
-package com.example.demo.controller;
+```javapackage com.example.employeeservice.controller;
 
-import com.example.demo.model.Course;
-import com.example.demo.service.CourseService;
+import com.example.employeeservice.Repository.CourseRepository;
+import com.example.employeeservice.Repository.StudentRepository;
+import com.example.employeeservice.Service.CourseService;
+import com.example.employeeservice.dto.CourseRequest;
+import com.example.employeeservice.exception.ResourceNotFoundException;
+import com.example.employeeservice.model.Course;
+import com.example.employeeservice.model.Student;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/courses")
 public class CourseController {
-
     @Autowired
     private CourseService courseService;
-
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private CourseRepository courseRepository;
     @GetMapping
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
@@ -460,6 +616,26 @@ public class CourseController {
         return courseService.createCourse(course);
     }
 
+//    @PostMapping
+//    public ResponseEntity<Course> createCourse(@RequestBody CourseRequest courseRequest) {
+//        // Check if studentId is provided
+//        if (courseRequest.getStudentId() == null) {
+//            return ResponseEntity.badRequest().body(null); // or handle as needed
+//        }
+//
+//        Student student = studentRepository.findById(courseRequest.getStudentId())
+//                                           .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+//
+//        Course course = new Course();
+//        course.setTitle(courseRequest.getTitle());
+//        course.setStudent(student);
+//
+//        Course savedCourse = courseRepository.save(course);
+//
+//        return ResponseEntity.ok(savedCourse);
+//    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<Course> updateCourse(@PathVariable(value = "id") Long id,
                                                @Valid @RequestBody Course courseDetails) {
@@ -473,6 +649,7 @@ public class CourseController {
         return ResponseEntity.ok().build();
     }
 }
+
 ```
 
 3. **ClubController** (`src/main/java/com/example/demo/controller/ClubController.java`):
@@ -552,356 +729,338 @@ This setup will give you a fully functional Spring Boot application with CRUD AP
 
 Here are the cURL commands for interacting with `CourseController`, `StudentController`, and `ClubController`. I will include the cURL commands for basic CRUD operations and provide commands to create 10 objects for each entity.
 
-### **cURL Commands for `CourseController`**
+### **PostMan Collection `**
+https://api.postman.com/collections/37581217-4238e1d2-a36b-4e14-af97-11a2634a9e70?access_key=PMAT-01J53KTGGA2WZ13ZE1KCKS9QCJ
 
-#### **CRUD Operations**
 
-1. **Create Course**:
-    ```sh
-    curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Mathematics"}'
-    ```
+The `Student` class has two relationships: a `ManyToMany` relationship with the `Club` class and a `ManyToOne` relationship with the `Course` class. Here's a detailed explanation of each relationship and how they work in the context of your application:
 
-2. **Read All Courses**:
-    ```sh
-    curl -X GET http://localhost:8081/api/courses
-    ```
+### 1. **Many-to-Many Relationship with Club**
 
-3. **Read Course by ID**:
-    ```sh
-    curl -X GET http://localhost:8081/api/courses/{id}
-    ```
-
-4. **Update Course**:
-    ```sh
-    curl -X PUT http://localhost:8081/api/courses/{id} -H "Content-Type: application/json" -d '{"title": "Advanced Mathematics"}'
-    ```
-
-5. **Delete Course**:
-    ```sh
-    curl -X DELETE http://localhost:8081/api/courses/{id}
-    ```
-
-#### **Create 10 Courses**
-
-```sh
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Mathematics"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Physics"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Chemistry"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Biology"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "History"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Geography"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "English"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Computer Science"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Art"}'
-curl -X POST http://localhost:8081/api/courses -H "Content-Type: application/json" -d '{"title": "Music"}'
+#### Code:
+```java
+@ManyToMany
+@JoinTable(
+    name = "student_club",
+    joinColumns = @JoinColumn(name = "student_id"),
+    inverseJoinColumns = @JoinColumn(name = "club_id")
+)
+private List<Club> clubs;
 ```
 
----
+#### Explanation:
 
-### **cURL Commands for `StudentController`**
+- **`@ManyToMany` Annotation**: 
+  - This annotation indicates that the `Student` class has a many-to-many relationship with the `Club` class. In a many-to-many relationship, each student can be associated with multiple clubs, and each club can have multiple students.
 
-#### **CRUD Operations**
+- **`@JoinTable` Annotation**:
+  - The `@JoinTable` annotation specifies the join table that will be used to manage this many-to-many relationship in the database. This table will link the `students` table with the `clubs` table.
 
-1. **Create Student**:
-    ```sh
-    curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Alice"}'
-    ```
+- **`name = "student_club"`**:
+  - The `name` attribute specifies the name of the join table. In this case, the table is named `student_club`.
 
-2. **Read All Students**:
-    ```sh
-    curl -X GET http://localhost:8081/api/students
-    ```
+- **`@JoinColumn(name = "student_id")`**:
+  - The `joinColumns` attribute specifies the foreign key column in the join table that refers to the `Student` entity. Here, `student_id` is the foreign key column that references the `id` of the `Student`.
 
-3. **Read Student by ID**:
-    ```sh
-    curl -X GET http://localhost:8081/api/students/{id}
-    ```
+- **`@JoinColumn(name = "club_id")`**:
+  - The `inverseJoinColumns` attribute specifies the foreign key column in the join table that refers to the `Club` entity. Here, `club_id` is the foreign key column that references the `id` of the `Club`.
 
-4. **Update Student**:
-    ```sh
-    curl -X PUT http://localhost:8081/api/students/{id} -H "Content-Type: application/json" -d '{"name": "Alice Smith"}'
-    ```
+#### SQL Representation:
 
-5. **Delete Student**:
-    ```sh
-    curl -X DELETE http://localhost:8081/api/students/{id}
-    ```
-
-#### **Create 10 Students**
-
-```sh
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Alice"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Bob"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Charlie"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "David"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Eva"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Frank"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Grace"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Hannah"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Isaac"}'
-curl -X POST http://localhost:8081/api/students -H "Content-Type: application/json" -d '{"name": "Jack"}'
-```
-
----
-
-### **cURL Commands for `ClubController`**
-
-#### **CRUD Operations**
-
-1. **Create Club**:
-    ```sh
-    curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Science Club"}'
-    ```
-
-2. **Read All Clubs**:
-    ```sh
-    curl -X GET http://localhost:8081/api/clubs
-    ```
-
-3. **Read Club by ID**:
-    ```sh
-    curl -X GET http://localhost:8081/api/clubs/{id}
-    ```
-
-4. **Update Club**:
-    ```sh
-    curl -X PUT http://localhost:8081/api/clubs/{id} -H "Content-Type: application/json" -d '{"name": "Technology Club"}'
-    ```
-
-5. **Delete Club**:
-    ```sh
-    curl -X DELETE http://localhost:8081/api/clubs/{id}
-    ```
-
-#### **Create 10 Clubs**
-
-```sh
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Science Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Art Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Music Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Drama Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Debate Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Chess Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Robotics Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Photography Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Coding Club"}'
-curl -X POST http://localhost:8081/api/clubs -H "Content-Type: application/json" -d '{"name": "Environment Club"}'
-```
-
-### Usage
-
-- Replace `{id}` in the cURL commands with the actual ID of the resource you want to interact with.
-- Ensure your Spring Boot application is running and accessible at `http://localhost:8081` before executing these commands.
-
-
-Let's create the ERD diagram, Postgres queries, and CRUD operations based on the provided Java classes.
-
-### ERD Diagram in PlantUML
-
-Here’s how you can represent the `Student`, `Course`, and `Club` entities in an ERD using PlantUML:
-
-```plantuml
-@startuml
-
-' Define Student entity
-entity "Student" as student {
-    *id : Long
-    *name : String
-}
-
-' Define Course entity
-entity "Course" as course {
-    *id : Long
-    *title : String
-}
-
-' Define Club entity
-entity "Club" as club {
-    *id : Long
-    *name : String
-}
-
-' Define relationships
-student --o course : "has"
-course --|> student : "belongs to"
-
-student --o club : "joins"
-club --o student : "has members"
-
-@enduml
-```
-
-### Postgres Table Definitions
+This relationship creates a new join table in the database:
 
 ```sql
--- Create Student table
-CREATE TABLE students (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
--- Create Course table
-CREATE TABLE courses (
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    student_id BIGINT NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
-);
-
--- Create Club table
-CREATE TABLE clubs (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-);
-
--- Create junction table for many-to-many relationship between students and clubs
 CREATE TABLE student_club (
-    student_id BIGINT NOT NULL,
-    club_id BIGINT NOT NULL,
+    student_id BIGINT,
+    club_id BIGINT,
     PRIMARY KEY (student_id, club_id),
-    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
-    FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE CASCADE
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (club_id) REFERENCES clubs(id)
 );
 ```
 
-### Insert Queries
+This table will contain entries that link students to clubs, allowing a student to be a member of multiple clubs and each club to have multiple members.
+
+### 2. **Many-to-One Relationship with Course**
+
+#### Code:
+```java
+@ManyToOne
+@JoinColumn(name = "course_id")
+private Course course;
+```
+
+#### Explanation:
+
+- **`@ManyToOne` Annotation**:
+  - This annotation indicates a many-to-one relationship between `Student` and `Course`. Many students can be associated with a single course, but each student can only be enrolled in one course at a time.
+
+- **`@JoinColumn(name = "course_id")`**:
+  - This annotation specifies the foreign key column in the `students` table that links to the `Course` entity. The `course_id` column will store the `id` of the associated `Course`.
+
+#### SQL Representation:
+
+This relationship adds a foreign key column in the `students` table:
 
 ```sql
--- Insert Students
-INSERT INTO students (name) VALUES ('Alice');
-INSERT INTO students (name) VALUES ('Bob');
-INSERT INTO students (name) VALUES ('Charlie');
-INSERT INTO students (name) VALUES ('David');
-INSERT INTO students (name) VALUES ('Eva');
-INSERT INTO students (name) VALUES ('Frank');
-INSERT INTO students (name) VALUES ('Grace');
-INSERT INTO students (name) VALUES ('Hannah');
-INSERT INTO students (name) VALUES ('Isaac');
-INSERT INTO students (name) VALUES ('Jack');
+CREATE TABLE students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    course_id BIGINT,
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+```
 
--- Insert Courses
-INSERT INTO courses (title, student_id) VALUES ('Math 101', 1);
-INSERT INTO courses (title, student_id) VALUES ('English 101', 2);
-INSERT INTO courses (title, student_id) VALUES ('History 101', 3);
-INSERT INTO courses (title, student_id) VALUES ('Science 101', 4);
-INSERT INTO courses (title, student_id) VALUES ('Biology 101', 5);
-INSERT INTO courses (title, student_id) VALUES ('Chemistry 101', 6);
-INSERT INTO courses (title, student_id) VALUES ('Physics 101', 7);
-INSERT INTO courses (title, student_id) VALUES ('Geography 101', 8);
-INSERT INTO courses (title, student_id) VALUES ('Art 101', 9);
-INSERT INTO courses (title, student_id) VALUES ('Music 101', 10);
+### How These Relationships Work Together:
 
--- Insert Clubs
-INSERT INTO clubs (name) VALUES ('Science Club');
-INSERT INTO clubs (name) VALUES ('Math Club');
-INSERT INTO clubs (name) VALUES ('Art Club');
-INSERT INTO clubs (name) VALUES ('Music Club');
-INSERT INTO clubs (name) VALUES ('History Club');
-INSERT INTO clubs (name) VALUES ('Literature Club');
-INSERT INTO clubs (name) VALUES ('Drama Club');
-INSERT INTO clubs (name) VALUES ('Debate Club');
-INSERT INTO clubs (name) VALUES ('Chess Club');
-INSERT INTO clubs (name) VALUES ('Robotics Club');
+- **Many-to-Many with Clubs**:
+  - Each student can join multiple clubs, and each club can have multiple students. This is managed by the `student_club` join table.
+  
+- **Many-to-One with Course**:
+  - Each student is enrolled in one course, and this relationship is managed directly within the `students` table by the `course_id` foreign key.
 
--- Insert into Student-Club Relationship Table
+### Example Scenario:
+
+1. **Joining Clubs**:
+   - Student "John Doe" can join both the "Photography Club" and the "Debate Club". The `student_club` table will have entries linking John Doe's `student_id` to the `club_id` of each club.
+
+2. **Enrolling in a Course**:
+   - John Doe can be enrolled in the "Computer Science" course. The `course_id` in the `students` table for John Doe will reference the `id` of the "Computer Science" course.
+
+### Summary:
+- The `ManyToMany` relationship between `Student` and `Club` allows students to participate in multiple clubs, with the relationship managed through a join table.
+- The `ManyToOne` relationship between `Student` and `Course` assigns each student to one course, with the foreign key stored directly in the `students` table. 
+
+This structure allows the application to manage students' club memberships and course enrollments efficiently.
+
+
+
+Based on the relationships between `Club`, `Student`, and `Course` in your Spring Boot application, the SQL table structure and sample queries would be as follows:
+
+### 1. **SQL Table Structure**
+
+#### `courses` Table
+```sql
+CREATE TABLE courses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+```
+
+#### `clubs` Table
+```sql
+CREATE TABLE clubs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+```
+
+#### `students` Table
+```sql
+CREATE TABLE students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    course_id BIGINT,
+    FOREIGN KEY (course_id) REFERENCES courses(id)
+);
+```
+
+#### `student_club` (Join Table for Many-to-Many Relationship between `students` and `clubs`)
+```sql
+CREATE TABLE student_club (
+    student_id BIGINT,
+    club_id BIGINT,
+    PRIMARY KEY (student_id, club_id),
+    FOREIGN KEY (student_id) REFERENCES students(id),
+    FOREIGN KEY (club_id) REFERENCES clubs(id)
+);
+```
+
+### 2. **Sample SQL Queries**
+
+#### Insert a Course
+```sql
+INSERT INTO courses (name) VALUES ('Computer Science');
+```
+
+#### Insert a Club
+```sql
+INSERT INTO clubs (name) VALUES ('Photography Club');
+```
+
+#### Insert a Student
+```sql
+INSERT INTO students (name, course_id) VALUES ('John Doe', 1);
+```
+
+#### Enroll a Student in a Club
+```sql
 INSERT INTO student_club (student_id, club_id) VALUES (1, 1);
-INSERT INTO student_club (student_id, club_id) VALUES (2, 2);
-INSERT INTO student_club (student_id, club_id) VALUES (3, 3);
-INSERT INTO student_club (student_id, club_id) VALUES (4, 4);
-INSERT INTO student_club (student_id, club_id) VALUES (5, 5);
-INSERT INTO student_club (student_id, club_id) VALUES (6, 6);
-INSERT INTO student_club (student_id, club_id) VALUES (7, 7);
-INSERT INTO student_club (student_id, club_id) VALUES (8, 8);
-INSERT INTO student_club (student_id, club_id) VALUES (9, 9);
-INSERT INTO student_club (student_id, club_id) VALUES (10, 10);
 ```
 
-### CRUD Queries
-
-#### Create
-
+#### Select All Students Enrolled in a Specific Course
 ```sql
--- Add a new student
-INSERT INTO students (name) VALUES ('New Student');
-
--- Add a new course
-INSERT INTO courses (title, student_id) VALUES ('New Course', 1);
-
--- Add a new club
-INSERT INTO clubs (name) VALUES ('New Club');
-```
-
-#### Read
-
-```sql
--- Get all students
-SELECT * FROM students;
-
--- Get all courses
-SELECT * FROM courses;
-
--- Get all clubs
-SELECT * FROM clubs;
-
--- Get a student by ID
-SELECT * FROM students WHERE id = 1;
-
--- Get courses for a specific student
-SELECT * FROM courses WHERE student_id = 1;
-
--- Get clubs for a specific student
-SELECT c.* FROM clubs c
-JOIN student_club sc ON c.id = sc.club_id
-WHERE sc.student_id = 1;
-```
-
-#### Update
-
-```sql
--- Update a student's name
-UPDATE students SET name = 'Updated Name' WHERE id = 1;
-
--- Update a course's title
-UPDATE courses SET title = 'Updated Course Title' WHERE id = 1;
-
--- Update a club's name
-UPDATE clubs SET name = 'Updated Club Name' WHERE id = 1;
-```
-
-#### Delete
-
-```sql
--- Delete a student
-DELETE FROM students WHERE id = 1;
-
--- Delete a course
-DELETE FROM courses WHERE id = 1;
-
--- Delete a club
-DELETE FROM clubs WHERE id = 1;
-
--- Delete a student-club relationship
-DELETE FROM student_club WHERE student_id = 1 AND club_id = 1;
-```
-
-### Join Queries
-
-```sql
--- Get students with their courses
-SELECT s.name AS student_name, c.title AS course_title
+SELECT s.id, s.name 
 FROM students s
-JOIN courses c ON s.id = c.student_id;
+JOIN courses c ON s.course_id = c.id
+WHERE c.name = 'Computer Science';
+```
 
--- Get students with their clubs
-SELECT s.name AS student_name, cl.name AS club_name
+#### Select All Clubs a Specific Student is Enrolled In
+```sql
+SELECT c.id, c.name 
+FROM clubs c
+JOIN student_club sc ON c.id = sc.club_id
+JOIN students s ON s.id = sc.student_id
+WHERE s.name = 'John Doe';
+```
+
+#### Select All Students in a Specific Club
+```sql
+SELECT s.id, s.name 
 FROM students s
 JOIN student_club sc ON s.id = sc.student_id
-JOIN clubs cl ON sc.club_id = cl.id;
-
--- Get courses with the corresponding student name
-SELECT c.title AS course_title, s.name AS student_name
-FROM courses c
-JOIN students s ON c.student_id = s.id;
+JOIN clubs c ON c.id = sc.club_id
+WHERE c.name = 'Photography Club';
 ```
 
-These SQL queries and cURL commands should help you manage and interact with your `Student`, `Course`, and `Club` entities effectively.
+### Summary:
+- The `courses` and `clubs` tables store course and club data.
+- The `students` table stores student data and includes a foreign key `course_id` to associate a student with a course.
+- The `student_club` table is a join table to manage the many-to-many relationship between students and clubs.
+- Sample SQL queries demonstrate how to insert and retrieve data related to students, courses, and clubs.
+
+This structure and these queries provide a robust foundation for managing the relationships between students, courses, and clubs in your application.
+
+
+
+In JPA (Java Persistence API), `EAGER` and `LAZY` loading strategies control how and when related entities are fetched from the database. Here’s a detailed explanation of both strategies, including when to use each and examples.
+
+### **EAGER Loading**
+
+**Definition:**
+- `EAGER` loading means that related entities are fetched immediately with the parent entity. When you retrieve the parent entity, all related entities are fetched as well.
+
+**When to Use:**
+- **When you always need the related entities:** Use `EAGER` loading if you frequently require the related data alongside the parent entity and want to avoid multiple queries.
+- **When the amount of related data is manageable:** `EAGER` loading can lead to performance issues if related data is large or complex, resulting in long load times.
+
+**Example Scenario:**
+- A `Student` entity has a `Course` entity, and you always need the course details whenever you retrieve a student.
+
+**Code Example:**
+
+```java
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER) // EAGER loading
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    // Getters and Setters
+}
+```
+
+In this example, every time you retrieve a `Student`, the associated `Course` is also fetched immediately.
+
+### **LAZY Loading**
+
+**Definition:**
+- `LAZY` loading means that related entities are fetched only when they are accessed. The related entities are loaded on-demand, i.e., when you actually access them.
+
+**When to Use:**
+- **When related data is not always needed:** Use `LAZY` loading if the related data is optional or if it might not be needed in every scenario.
+- **When dealing with large data sets:** `LAZY` loading helps in reducing initial load times and avoids performance issues associated with fetching large amounts of data.
+
+**Example Scenario:**
+- A `Course` entity has multiple `Student` entities, and you do not always need to load all students when you fetch a course.
+
+**Code Example:**
+
+```java
+@Entity
+public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY) // LAZY loading
+    private List<Student> students;
+
+    // Getters and Setters
+}
+```
+
+In this example, the `students` list in `Course` is fetched only when you explicitly access it. This reduces the initial load time of a `Course` entity.
+
+### **Example Comparison**
+
+**Scenario:**
+- Suppose you have an `Author` entity with a collection of `Books`, and you want to fetch an `Author` along with their `Books`.
+
+**Using EAGER Loading:**
+
+```java
+@Entity
+public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER) // EAGER loading
+    private List<Book> books;
+
+    // Getters and Setters
+}
+```
+
+**Using LAZY Loading:**
+
+```java
+@Entity
+public class Author {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) // LAZY loading
+    private List<Book> books;
+
+    // Getters and Setters
+}
+```
+
+**Behavior:**
+
+- **EAGER:** Fetching an `Author` will also fetch all associated `Books` in one query. This might be useful if you always need the books whenever you access an author.
+- **LAZY:** Fetching an `Author` will not immediately fetch the `Books`. Instead, when you access the `books` collection, a separate query will be executed to fetch the books. This approach helps in optimizing performance if you don’t always need the related data.
+
+### **When to Choose Each:**
+
+- **EAGER Loading**: Use when:
+  - The related data is always needed with the parent entity.
+  - The size of related data is manageable and doesn’t impact performance.
+
+- **LAZY Loading**: Use when:
+  - The related data is not always needed.
+  - You want to avoid loading unnecessary data to improve performance.
+  - Dealing with potentially large datasets or complex object graphs.
+
+### **Summary:**
+
+- **EAGER Loading** fetches related data immediately, which can be beneficial when you always need the data but might cause performance issues with large datasets.
+- **LAZY Loading** fetches related data only when accessed, improving initial performance and reducing memory usage but potentially causing multiple queries when accessing related data. 
+
+Choose the loading strategy based on your application’s requirements and performance considerations.
