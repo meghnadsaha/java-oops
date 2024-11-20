@@ -559,7 +559,7 @@ Here’s the complete plain HTML code for the landing page layout using Bootstra
 
 
 ### Design Three:
-<img src="https://img.freepik.com/premium-vector/website-landing-structure-footer-header-page-template-with-contact-blog-news-videos-options-scheme-websites-wireframe-vector-design-illustration-interface-website-structure_80590-20750.jpg?w=826"/>
+<img src="https://github.com/meghnadsaha/java-oops/blob/master/resources/web-design/Screenshot%202024-11-11%20at%208.29.10%20PM.png?raw=true"/>
 
 Here is a full layout code for a travel website landing page similar to the image you provided, using both **React Bootstrap** and **plain HTML with Bootstrap**. This layout includes sections for a hero banner, packages, pricing, and tour guides, along with some custom styling in CSS.
 
