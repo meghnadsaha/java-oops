@@ -867,7 +867,7 @@ This layout includes custom CSS to match the style, with sections for the hero, 
 
 ### Design Four
 
-<img src=""/>
+<img src="https://github.com/meghnadsaha/java-oops/blob/master/resources/web-design/Screenshot%202024-11-11%20at%208.29.14%20PM.png"/>
 
 Here’s the complete code for a travel website landing page similar to the latest image you provided, using **React Bootstrap** and **plain HTML with Bootstrap**. This design features a hero section with a search bar, a section for popular packages, a promotional banner, a tour guide section, and a footer.
 
