@@ -1118,6 +1118,146 @@ footer class="bg-dark text-white text-center py-4">
 
 This HTML and React layout uses Bootstrap to create a travel page with structured sections. Each section is styled with appropriate classes and custom CSS to match the look of your provided design. Let me know if you need any further adjustments!
 
+### Design Five
+
+<img src="https://media.istockphoto.com/id/1195362116/vector/website-template-design-with-interface-elements.webp?s=2048x2048&w=is&k=20&c=3le0HWQ_D8NGvdYFmaUfh5NB8i3iF7UrwXCeE-E39Xw="/>
+
+To make the layout of the diamonds (cubes) match the exact design in your image, I’ll adjust the CSS to set the positions and sizes more precisely. This version uses absolute positioning to place each diamond accurately.
+
+Here's the code in **plain HTML with Bootstrap** and inline CSS.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    
+    /* Navbar */
+    .navbar { background-color: #333; }
+    .navbar-nav .nav-link { color: #fff !important; }
+
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #ff5ba1 50%, #ffffff 50%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Diamond shapes */
+    .geometric-shapes {
+      position: relative;
+      width: 300px; /* Adjust width as needed to control spacing */
+      height: 300px;
+      margin: auto;
+    }
+
+    .diamond {
+      position: absolute;
+      background-color: #ff5ba1;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transform: rotate(45deg);
+      text-align: center;
+    }
+
+    .diamond.large {
+      width: 150px;
+      height: 150px;
+      top: 50px;
+      left: 75px;
+    }
+
+    .diamond.medium {
+      width: 100px;
+      height: 100px;
+    }
+
+    .diamond.medium-1 { top: 0; left: 50%; transform: translateX(-50%) rotate(45deg); }
+    .diamond.medium-2 { top: 50%; left: 0; transform: translateY(-50%) rotate(45deg); }
+    .diamond.small {
+      width: 75px;
+      height: 75px;
+      bottom: 20px;
+      right: 50px;
+    }
+
+    /* Adjust text within diamonds */
+    .diamond > span {
+      transform: rotate(-45deg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark px-3">
+    <a class="navbar-brand" href="#">Landing Page</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#">Main Page</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Downloads</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Articles</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">EN</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <div class="container-fluid hero-section">
+    <div class="row w-100">
+      <div class="col-md-6 p-5 text-center text-md-start">
+        <h2>Heading</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+      <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <div class="geometric-shapes">
+          <div class="diamond large"><span>WEB DSGN</span></div>
+          <div class="diamond medium medium-1"></div>
+          <div class="diamond medium medium-2"></div>
+          <div class="diamond small"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+### Explanation of CSS Adjustments
+
+- **Hero Section**: The background gradient and positioning are preserved as in the original.
+- **Diamond Shapes**:
+  - **Positioning**: Each diamond (`large`, `medium`, `small`) has been positioned using `absolute` positioning within the `.geometric-shapes` container.
+  - **Sizes**: Adjusted `width` and `height` for different diamond sizes.
+  - **Exact Positions**:
+    - `.large`: Positioned in the center as the main diamond with text.
+    - `.medium-1` and `.medium-2`: Positioned symmetrically on the top and left to create the exact arrangement.
+    - `.small`: Positioned at the bottom right for balance.
+- **Text Adjustment**: Each diamond’s text is rotated back by `-45deg` to appear upright inside the rotated shapes.
+
+This code should create a layout that closely resembles the design in your image with precise positioning of each diamond shape. Let me know if you need further adjustments.
 
 
 
