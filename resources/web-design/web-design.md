@@ -1260,4 +1260,223 @@ Here's the code in **plain HTML with Bootstrap** and inline CSS.
 This code should create a layout that closely resembles the design in your image with precise positioning of each diamond shape. Let me know if you need further adjustments.
 
 
+### Flipkart Product Page Footer :
+
+
+<img src="https://github.com/meghnadsaha/java-oops/blob/master/resources/web-design/POCO-M6-Pro-5G-128-GB-Storage-6-GB-RAM-Online-at-Best-Price-On-Flipkart-com.png"/>
+To replicate the footer design seen in the image, here’s the HTML and CSS code for a similar footer layout. This footer includes sections like "About," "Help," "Consumer Policy," "Group Companies," and other relevant information with styling.
+
+### HTML and CSS Code for Footer
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Design</title>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Footer Container */
+    .footer-container {
+      background-color: #00284d;
+      color: #ffffff;
+      padding: 2rem 0;
+      font-size: 0.9rem;
+    }
+
+    .footer-top {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    /* Footer Column */
+    .footer-column {
+      flex: 1 1 20%;
+      margin: 1rem;
+      min-width: 200px;
+    }
+
+    .footer-column h4 {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-column ul li a {
+      color: #d1d1d1;
+      text-decoration: none;
+    }
+
+    .footer-column ul li a:hover {
+      color: #ffffff;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      max-width: 1200px;
+      margin: auto;
+      text-align: center;
+      padding: 1rem;
+      border-top: 1px solid #4d4d4d;
+    }
+
+    .footer-bottom p {
+      margin: 0.5rem 0;
+    }
+
+    .footer-bottom-icons img {
+      margin: 0 0.5rem;
+      width: 30px;
+      height: auto;
+    }
+
+    /* Footer Links */
+    .footer-links {
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.8rem;
+      color: #d1d1d1;
+    }
+
+    .footer-links a {
+      color: #d1d1d1;
+      text-decoration: none;
+      margin: 0 0.3rem;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .footer-column {
+        flex: 1 1 100%;
+        margin: 0.5rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Footer -->
+<div class="footer-container">
+  <div class="footer-top">
+    <!-- About Section -->
+    <div class="footer-column">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Flipkart Stories</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Corporate Information</a></li>
+      </ul>
+    </div>
+
+    <!-- Help Section -->
+    <div class="footer-column">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Payments</a></li>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Cancellation & Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Consumer Policy Section -->
+    <div class="footer-column">
+      <h4>Consumer Policy</h4>
+      <ul>
+        <li><a href="#">Cancellation & Returns</a></li>
+        <li><a href="#">Terms Of Use</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Sitemap</a></li>
+        <li><a href="#">Grievance Redressal</a></li>
+        <li><a href="#">EPR Compliance</a></li>
+      </ul>
+    </div>
+
+    <!-- Group Companies Section -->
+    <div class="footer-column">
+      <h4>Group Companies</h4>
+      <ul>
+        <li><a href="#">Myntra</a></li>
+        <li><a href="#">Cleartrip</a></li>
+        <li><a href="#">Shopsy</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Information Section -->
+    <div class="footer-column">
+      <h4>Registered Office Address</h4>
+      <p>Flipkart Internet Private Limited,</p>
+      <p>Buildings Alyssa, Begonia &</p>
+      <p>Clove Embassy Tech Village,</p>
+      <p>Outer Ring Road, Devarabeesanahalli Village,</p>
+      <p>Bengaluru, 560103,</p>
+      <p>Karnataka, India</p>
+      <p>CIN : U51109KA2012PTC066107</p>
+      <p>Telephone: <a href="tel:04445614700">044-45614700</a></p>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <a href="#">Become a Seller</a> |
+      <a href="#">Gift Cards</a> |
+      <a href="#">Help Center</a> |
+      © 2007-2024 Flipkart.com
+    </div>
+    <div class="footer-bottom-icons">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Visa_2021.svg/1200px-Visa_2021.svg.png" alt="Visa">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Mastercard_2019_logo.svg/1200px-Mastercard_2019_logo.svg.png" alt="Mastercard">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/RuPay_logo.svg/1024px-RuPay_logo.svg.png" alt="RuPay">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/PayPal_logo.svg/2560px-PayPal_logo.svg.png" alt="Paypal">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+```
+
+### Explanation of Code
+
+- **Footer Structure**: Divided into a `.footer-top` for main links and `.footer-bottom` for footer notes and payment icons.
+- **Footer Columns**: Each section like "About," "Help," "Consumer Policy," "Group Companies," and "Registered Office" is structured within `.footer-column`.
+- **Icons**: Icons for payment methods are included at the bottom.
+- **Responsive**: Adjusts the footer columns to a single column on smaller screens for better readability.
+
+This code provides a clean, organized footer similar to the Flipkart design, with sections and payment icons for added visual detail. Let me know if you need further adjustments or enhancements!
+
+
+
+
 
