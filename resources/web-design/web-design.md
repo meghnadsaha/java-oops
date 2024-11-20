@@ -865,4 +865,259 @@ Here’s the equivalent layout in plain HTML and Bootstrap.
 
 This layout includes custom CSS to match the style, with sections for the hero, package choices, pricing, tour guides, and footer. Let me know if you need further adjustments!
 
+### Design Four
+
+<img src=""/>
+
+Here’s the complete code for a travel website landing page similar to the latest image you provided, using **React Bootstrap** and **plain HTML with Bootstrap**. This design features a hero section with a search bar, a section for popular packages, a promotional banner, a tour guide section, and a footer.
+
+---
+
+### React Bootstrap Code (App.js + App.css)
+
+1. **Install Dependencies**:
+   Make sure you have `react-bootstrap` and `bootstrap` installed.
+
+   ```bash
+   npm install react-bootstrap bootstrap
+   ```
+
+2. **App.js** - Main Component Code
+
+   ```javascript
+   import React from 'react';
+   import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+   import './App.css';
+
+   function App() {
+     return (
+       <Container fluid>
+         {/* Hero Section */}
+         <div className="hero-section text-center text-white py-5">
+           <h1 className="display-4 font-weight-bold">We Make Your Travel More Enjoyable</h1>
+           <Form className="search-form mt-4 mx-auto">
+             <Form.Control type="text" placeholder="Search Location" className="rounded-pill px-4" />
+           </Form>
+         </div>
+
+         {/* Most Popular Packages Section */}
+         <Container className="text-center my-5">
+           <h2 className="font-weight-bold">Most Popular Packages</h2>
+           <Row className="mt-4">
+             {['Tuscany, Italy', 'Tokyo, Japan', 'Monica, California', 'Maldives, Oceania', 'Seychelles', 'Phuket, Thailand'].map((location, index) => (
+               <Col key={index} md={4} className="mb-4">
+                 <Card className="package-card">
+                   <Card.Img variant="top" src="placeholder.png" className="img-fluid" />
+                   <Card.Body>
+                     <Card.Title>{location}</Card.Title>
+                     <Card.Text>3 Night Stay (Apartment) | Sports City | 5 Star Quality</Card.Text>
+                     <p>From $90.00</p>
+                   </Card.Body>
+                 </Card>
+               </Col>
+             ))}
+           </Row>
+         </Container>
+
+         {/* Promotion Banner */}
+         <div className="promotion-banner text-white text-center py-5">
+           <h2>Up to 45% off on your favourite Destination</h2>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+           <Button variant="dark" className="rounded-pill">Book Now</Button>
+         </div>
+
+         {/* Tour Guide Section */}
+         <Container className="text-center my-5">
+           <h2 className="font-weight-bold">Tour Guide</h2>
+           <Row className="mt-4">
+             {['McKinney', 'Charlotte', 'Brooklyn'].map((guide, index) => (
+               <Col key={index} md={4} className="mb-4">
+                 <Card className="tour-guide-card">
+                   <Card.Img variant="top" src="placeholder.png" className="img-fluid" />
+                   <Card.Body>
+                     <Card.Title>{guide}</Card.Title>
+                     <Card.Text>Tour Guide</Card.Text>
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                   </Card.Body>
+                 </Card>
+               </Col>
+             ))}
+           </Row>
+         </Container>
+
+         {/* Footer Section */}
+         <footer className="bg-dark text-white text-center py-4">
+           <Container>
+             <p>Address Street Name City Name, Country | info@example.com | (+000) 123 456 789</p>
+           </Container>
+         </footer>
+       </Container>
+     );
+   }
+
+   export default App;
+   ```
+
+3. **App.css** - Custom CSS Styling
+
+   ```css
+   /* App.css */
+   body {
+     background-color: #f8f9fa;
+   }
+
+   .hero-section {
+     background-color: #f7b731;
+   }
+
+   .search-form {
+     max-width: 500px;
+   }
+
+   .package-card, .tour-guide-card {
+     border: none;
+     text-align: left;
+   }
+
+   .promotion-banner {
+     background: linear-gradient(90deg, #f7b731, #ffab00);
+   }
+
+   footer {
+     font-size: 0.9rem;
+   }
+   ```
+
+---
+
+### Plain HTML with Bootstrap Code
+
+Here’s the equivalent layout in plain HTML and Bootstrap.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Landing Page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; }
+    .hero-section { background-color: #f7b731; color: white; padding: 3rem 0; }
+    .search-form { max-width: 500px; margin: auto; }
+    .promotion-banner { background: linear-gradient(90deg, #f7b731, #ffab00); color: white; padding: 3rem 0; }
+    footer { font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero-section text-center">
+    <h1 class="display-4 font-weight-bold">We Make Your Travel More Enjoyable</h1>
+    <form class="search-form mt-4">
+      <input type="text" class="form-control rounded-pill px-4" placeholder="Search Location">
+    </form>
+  </div>
+
+  <!-- Most Popular Packages Section -->
+  <div class="container text-center my-5">
+    <h2 class="font-weight-bold">Most Popular Packages</h2>
+    <div class="row mt-4">
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="Tuscany">
+          <div class="card-body">
+            <h5 class="card-title">Tuscany, Italy</h5>
+            <p>3 Night Stay (Apartment) | Sports City | 5 Star Quality</p>
+            <p>From $90.00</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="Tokyo">
+          <div class="card-body">
+            <h5 class="card-title">Tokyo, Japan</h5>
+            <p>3 Night Stay (Apartment) | Sports City | 5 Star Quality</p>
+            <p>From $90.00</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="Monica">
+          <div class="card-body">
+            <h5 class="card-title">Monica, California</h5>
+            <p>3 Night Stay (Apartment) | Sports City | 5 Star Quality</p>
+            <p>From $90.00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Promotion Banner -->
+  <div class="promotion-banner text-center">
+    <h2>Up to 45% off on your favourite Destination</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+    <button class="btn btn-dark rounded-pill">Book Now</button>
+  </div>
+
+  <!-- Tour Guide Section -->
+  <div class="container text-center my-5">
+    <h2 class="font-weight-bold">Tour Guide</h2>
+    <div class="row mt-4">
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="McKinney">
+          <div class="card-body">
+            <h5 class="card-title">McKinney</h5>
+            <p>Tour Guide</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="Charlotte">
+          <div class="card-body">
+            <h5 class="card-title">Charlotte</h5>
+            <p>Tour Guide</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="placeholder.png" class="card-img-top" alt="Brooklyn">
+          <div class="card-body">
+            <h5 class="card-title">Brooklyn</h5>
+            <p>Tour Guide</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <
+
+footer class="bg-dark text-white text-center py-4">
+    <div class="container">
+      <p>Address Street Name City Name, Country | info@example.com | (+000) 123 456 789</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+This HTML and React layout uses Bootstrap to create a travel page with structured sections. Each section is styled with appropriate classes and custom CSS to match the look of your provided design. Let me know if you need any further adjustments!
+
+
+
 
