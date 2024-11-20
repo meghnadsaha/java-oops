@@ -1476,6 +1476,32 @@ To replicate the footer design seen in the image, here’s the HTML and CSS code
 
 This code provides a clean, organized footer similar to the Flipkart design, with sections and payment icons for added visual detail. Let me know if you need further adjustments or enhancements!
 
+### TOTC - English Learning Website (Community)
+https://www.figma.com/design/ebzWxf5o4igraxm6wJsVdh/TOTC---English-Learning-Website-(Community)?node-id=0-1&node-type=canvas&t=QmVbI52z5kNTVJ4q-0
+
+
+### Hospital-website-template : 
+<a href="https://www.figma.com/design/mTfh5kgYuJcfu03LDjWcEt/MEDDICAL---Hospital-website-template-(Community)?node-id=147-1780&node-type=canvas&t=y13Au4qOXXZGJJBk-0
+">link</a>
+
+
+https://www.figma.com/proto/mTfh5kgYuJcfu03LDjWcEt/MEDDICAL---Hospital-website-template-(Community)?node-id=147-3734&node-type=canvas&t=y13Au4qOXXZGJJBk-0&scaling=min-zoom&content-scaling=fixed&page-id=147%3A1780&starting-point-node-id=147%3A1781
+
+
+### Simple-ecommerce
+
+
+https://www.figma.com/design/eCvzJdOnsIvQj0srKrrkbn/Simple-ecommerce-free-figma-website-template-(Community)?node-id=1-2&node-type=canvas&t=02hIG4ZE3lgtsZKu-0
+
+### Tour Guide - travel agency/travel booking website (Community)
+
+https://www.figma.com/design/Y5SD6OECh585nM0QzSZgm3/Tour-Guide---travel-agency%2Ftravel-booking-website-(Community)?node-id=37-2&node-type=canvas&t=PeFsbNmRn4hTQWEG-0
+
+
+### BankDash - Dashboard UI Kit - Admin Template Dashboard - Admin Dashboard (Community)
+
+
+https://www.figma.com/design/UxoEepiQOc3D6h0ZiYt4dZ/BankDash---Dashboard-UI-Kit---Admin-Template-Dashboard---Admin-Dashboard-(Community)?node-id=201-2&node-type=frame&t=TSUe3kXY0jyhGm3X-0
 
 
 
