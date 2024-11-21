@@ -297,8 +297,8 @@ Here’s how to create a layout similar to the one in your image using React Boo
 
 This layout is fully responsive and will adjust according to screen size. Let me know if you need further customization!
 
-### Design Two:
-
+### Design Two: 
+<a href="https://www.canva.com/design/DAGXE_lVYLw/sXgp7PhKPK1VA6f-Vd-vzw/view?utm_content=DAGXE_lVYLw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3d39fc74a0">link</a>
 <img src="https://www.canva.com/design/DAGXE_lVYLw/sXgp7PhKPK1VA6f-Vd-vzw/view?utm_content=DAGXE_lVYLw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3d39fc74a0"/>
 
 Here’s the full code for a landing page with a navigation bar, hero banner, information cards, company advantages, a cases carousel, a contact form, and a footer. This layout is implemented in both **React Bootstrap** and **plain HTML with Bootstrap** for maximum flexibility. Each section is styled to resemble the layout in your provided image.
