@@ -299,7 +299,7 @@ This layout is fully responsive and will adjust according to screen size. Let me
 
 ### Design Two:
 
-<img src="https://img.freepik.com/premium-vector/website-landing-structure-footer-header-page-template-with-contact-blog-news-videos-options-scheme-websites-wireframe-vector-design-illustration-interface-website-structure_80590-20750.jpg?w=826"/>
+<img src="https://www.canva.com/design/DAGXE_lVYLw/sXgp7PhKPK1VA6f-Vd-vzw/view?utm_content=DAGXE_lVYLw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h3d39fc74a0"/>
 
 Here’s the full code for a landing page with a navigation bar, hero banner, information cards, company advantages, a cases carousel, a contact form, and a footer. This layout is implemented in both **React Bootstrap** and **plain HTML with Bootstrap** for maximum flexibility. Each section is styled to resemble the layout in your provided image.
 
